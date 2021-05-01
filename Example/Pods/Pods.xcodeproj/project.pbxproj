@@ -7,21 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		17AD42E38980513371A3695E56C4F4F8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
+		07F89F7E64AFD9DB069126CDED654417 /* Skynet-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C54213D4569B3279140AA8AC39687B86 /* Skynet-dummy.m */; };
+		19BA5A033EBB98F54DDE30A2BA513E15 /* Upload.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC4021603FA80D9CCB3204847364151F /* Upload.swift */; };
+		1B2EC623C9DAF456D87E7F0953100D6A /* Download.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B090DDA197587CAD19AE3A56787716 /* Download.swift */; };
 		3135B64781DCDE7AEDA2B82CC781E8C6 /* Pods-Skynet_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 4088F6E784F80EE2464F787C1C58B67C /* Pods-Skynet_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		3AAAC8AC266761CE2DBA9FBA46D96F37 /* Skynet-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 29AF2D34B6E32337580983FA4D7F065E /* Skynet-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		481CF96E263DC9670027C4A1 /* Skynet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481CF96D263DC9670027C4A1 /* Skynet.swift */; };
-		481CF972263DC9A40027C4A1 /* Upload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481CF971263DC9A40027C4A1 /* Upload.swift */; };
-		481CF978263DCA4B0027C4A1 /* NSURLSession+Multipart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481CF977263DCA4B0027C4A1 /* NSURLSession+Multipart.swift */; };
-		481CF980263DD07C0027C4A1 /* SkynetResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481CF97F263DD07C0027C4A1 /* SkynetResponse.swift */; };
-		481CF989263DD87C0027C4A1 /* Download.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481CF988263DD87C0027C4A1 /* Download.swift */; };
+		705E1ADFDE0D3FB044964147F3C08793 /* SkynetResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2104C67A722277D5D3D9D1D4B22B179 /* SkynetResponse.swift */; };
+		A2FE589DD35C35411247543464932FFC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
 		AABE16DFB98804B390059FC63A1F0B9B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
-		ACE64111F1935873C4F02B0CEB2F403B /* Skynet-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A1E52F1E35CA56167BBCC695756FE65 /* Skynet-dummy.m */; };
+		B1F04D0B6F19C7B118F392307DBE6B51 /* Skynet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B199B3F013C5F57AFE262E645BC282 /* Skynet.swift */; };
 		B3C6E0F1BA2E808592B6CB6B2812F3D2 /* Pods-Skynet_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 16EEBE34F90567A89653F4F4A082A363 /* Pods-Skynet_Tests-dummy.m */; };
+		F19FEF3388D924DD9F7419A9A41F3B92 /* NSURLSession+Multipart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FF1FEA54DD664DEEC64ABDEDE31B2D /* NSURLSession+Multipart.swift */; };
+		FE6217194F7C7D11FB6C0AE77D683CA2 /* Skynet-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B74761E144CAFF08562A724B25462E3 /* Skynet-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		202125A7E0FDBCD3B3B4228597232621 /* PBXContainerItemProxy */ = {
+		D3AD2F200E0D0C06C6E7075FB1DEFEB3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
@@ -32,33 +32,33 @@
 
 /* Begin PBXFileReference section */
 		045AD04BFF7D8916A0C1E6034F836A3A /* Pods-Skynet_Tests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Skynet_Tests-Info.plist"; sourceTree = "<group>"; };
+		0B74761E144CAFF08562A724B25462E3 /* Skynet-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Skynet-umbrella.h"; sourceTree = "<group>"; };
 		16EEBE34F90567A89653F4F4A082A363 /* Pods-Skynet_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Skynet_Tests-dummy.m"; sourceTree = "<group>"; };
-		29AF2D34B6E32337580983FA4D7F065E /* Skynet-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Skynet-umbrella.h"; sourceTree = "<group>"; };
 		29CAAA1D02D223AFFBA7F594B30A2613 /* Pods-Skynet_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Skynet_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		36C27B651DAE155F41F95A93C223AC4D /* Skynet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Skynet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		3C0EDF0452D8EA1FFB2B0F3CD5759398 /* Skynet.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = Skynet.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		308E53FA1E282FC16CDFE1436AE5B31B /* Skynet.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Skynet.debug.xcconfig; sourceTree = "<group>"; };
+		36C27B651DAE155F41F95A93C223AC4D /* Skynet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Skynet.framework; path = Skynet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		38B109219AD8495FB149DDDC8FFA4A41 /* Skynet.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = Skynet.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		3DA01B6323B4C3FDC83F86227685343B /* Pods-Skynet_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Skynet_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		4088F6E784F80EE2464F787C1C58B67C /* Pods-Skynet_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Skynet_Tests-umbrella.h"; sourceTree = "<group>"; };
-		481CF96D263DC9670027C4A1 /* Skynet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Skynet.swift; path = Skynet/Classes/Skynet.swift; sourceTree = "<group>"; };
-		481CF971263DC9A40027C4A1 /* Upload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Upload.swift; path = Skynet/Classes/Upload.swift; sourceTree = "<group>"; };
-		481CF977263DCA4B0027C4A1 /* NSURLSession+Multipart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "NSURLSession+Multipart.swift"; path = "Skynet/Classes/NSURLSession+Multipart.swift"; sourceTree = "<group>"; };
-		481CF97F263DD07C0027C4A1 /* SkynetResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkynetResponse.swift; sourceTree = "<group>"; };
-		481CF988263DD87C0027C4A1 /* Download.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Download.swift; path = Skynet/Classes/Download.swift; sourceTree = "<group>"; };
 		4B8CF81B8892B8456F10A8C94450AC67 /* Pods-Skynet_Tests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Skynet_Tests-frameworks.sh"; sourceTree = "<group>"; };
-		586BD889D0BDA7283732FE61E6CC3812 /* Skynet-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Skynet-prefix.pch"; sourceTree = "<group>"; };
-		6A1E52F1E35CA56167BBCC695756FE65 /* Skynet-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Skynet-dummy.m"; sourceTree = "<group>"; };
-		6DDA0FDD6E30644037C10674C44A655E /* Skynet.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Skynet.modulemap; sourceTree = "<group>"; };
+		53FF1FEA54DD664DEEC64ABDEDE31B2D /* NSURLSession+Multipart.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "NSURLSession+Multipart.swift"; path = "Sources/Skynet/NSURLSession+Multipart.swift"; sourceTree = "<group>"; };
+		547ACBA32D72399CF0B9D53F49729A9C /* Skynet.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Skynet.modulemap; sourceTree = "<group>"; };
+		55BE87D6F217E987F877B467998AF40E /* Skynet.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Skynet.release.xcconfig; sourceTree = "<group>"; };
 		73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		78C357C95C0F4CA2AE980465B7B0FEBF /* Skynet-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Skynet-Info.plist"; sourceTree = "<group>"; };
-		8F4CBCA757F02646D85FE568CC2E9B83 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		79DE5A9263DB8019C97655B91AEEAFAA /* Skynet-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Skynet-prefix.pch"; sourceTree = "<group>"; };
+		7AD11E338541CB9385E71E87E589E8B5 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
 		9524DB3CFDAE31248012E2246434373B /* Pods-Skynet_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Skynet_Tests.release.xcconfig"; sourceTree = "<group>"; };
-		9B6A1D6E9FF2BAB61053F02606B2BDED /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		9D345068F5592D85BD1EF8C49B2D26EB /* Pods_Skynet_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Skynet_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D345068F5592D85BD1EF8C49B2D26EB /* Pods_Skynet_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Skynet_Tests.framework; path = "Pods-Skynet_Tests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		A2B199B3F013C5F57AFE262E645BC282 /* Skynet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Skynet.swift; path = Sources/Skynet/Skynet.swift; sourceTree = "<group>"; };
 		A3761D972A3FF341883DFBD542034E52 /* Pods-Skynet_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Skynet_Tests.modulemap"; sourceTree = "<group>"; };
 		B9A54C6BC9178958B41018369824D789 /* Pods-Skynet_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Skynet_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
-		D76889AADA82E4E72DC445CE2F8DC52D /* Skynet.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Skynet.debug.xcconfig; sourceTree = "<group>"; };
-		D9BB338B5A1C9229AACD0998D3A71A95 /* Skynet.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Skynet.release.xcconfig; sourceTree = "<group>"; };
+		C54213D4569B3279140AA8AC39687B86 /* Skynet-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Skynet-dummy.m"; sourceTree = "<group>"; };
+		CC4021603FA80D9CCB3204847364151F /* Upload.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Upload.swift; path = Sources/Skynet/Upload.swift; sourceTree = "<group>"; };
+		D0B090DDA197587CAD19AE3A56787716 /* Download.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Download.swift; path = Sources/Skynet/Download.swift; sourceTree = "<group>"; };
+		D848313BA640052FDD0C93BE74379E56 /* Skynet-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Skynet-Info.plist"; sourceTree = "<group>"; };
+		E710B9CF0B3459AA68D9547DD2E8D7DD /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
+		F2104C67A722277D5D3D9D1D4B22B179 /* SkynetResponse.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SkynetResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,54 +70,33 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C736B719499E668B5549F86DFF37C60F /* Frameworks */ = {
+		A7CB4A32D8CF09194465AAE93DFB42EC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				17AD42E38980513371A3695E56C4F4F8 /* Foundation.framework in Frameworks */,
+				A2FE589DD35C35411247543464932FFC /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0347B77D6C55E0F211C160B704655F5D /* Support Files */ = {
+		15EAEDFD010452183627610D5FA3C65E /* Pod */ = {
 			isa = PBXGroup;
 			children = (
-				6DDA0FDD6E30644037C10674C44A655E /* Skynet.modulemap */,
-				6A1E52F1E35CA56167BBCC695756FE65 /* Skynet-dummy.m */,
-				78C357C95C0F4CA2AE980465B7B0FEBF /* Skynet-Info.plist */,
-				586BD889D0BDA7283732FE61E6CC3812 /* Skynet-prefix.pch */,
-				29AF2D34B6E32337580983FA4D7F065E /* Skynet-umbrella.h */,
-				D76889AADA82E4E72DC445CE2F8DC52D /* Skynet.debug.xcconfig */,
-				D9BB338B5A1C9229AACD0998D3A71A95 /* Skynet.release.xcconfig */,
+				7AD11E338541CB9385E71E87E589E8B5 /* LICENSE */,
+				E710B9CF0B3459AA68D9547DD2E8D7DD /* README.md */,
+				38B109219AD8495FB149DDDC8FFA4A41 /* Skynet.podspec */,
 			);
-			name = "Support Files";
-			path = "Example/Pods/Target Support Files/Skynet";
+			name = Pod;
 			sourceTree = "<group>";
 		};
-		481CF97E263DD06F0027C4A1 /* Model */ = {
+		197478784E76D26032E333F9BBB60BBE /* Development Pods */ = {
 			isa = PBXGroup;
 			children = (
-				481CF97F263DD07C0027C4A1 /* SkynetResponse.swift */,
+				ED90C231ED1834485CD1616E404C1956 /* Skynet */,
 			);
-			name = Model;
-			path = Skynet/Classes/Model;
-			sourceTree = "<group>";
-		};
-		4AC2197827DF2E0228725A95298F1F0D /* Skynet */ = {
-			isa = PBXGroup;
-			children = (
-				481CF97E263DD06F0027C4A1 /* Model */,
-				481CF96D263DC9670027C4A1 /* Skynet.swift */,
-				481CF988263DD87C0027C4A1 /* Download.swift */,
-				481CF971263DC9A40027C4A1 /* Upload.swift */,
-				481CF977263DCA4B0027C4A1 /* NSURLSession+Multipart.swift */,
-				D960F60280041DB779D4DDEDD55879A4 /* Pod */,
-				0347B77D6C55E0F211C160B704655F5D /* Support Files */,
-			);
-			name = Skynet;
-			path = ../..;
+			name = "Development Pods";
 			sourceTree = "<group>";
 		};
 		578452D2E740E91742655AC8F1636D1F /* iOS */ = {
@@ -128,11 +107,35 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
+		6EF3713368E42AF2F4FC97BB0D559C54 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F2104C67A722277D5D3D9D1D4B22B179 /* SkynetResponse.swift */,
+			);
+			name = Model;
+			path = Sources/Skynet/Model;
+			sourceTree = "<group>";
+		};
+		86B02A72324FA13AF60B986F091E0958 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				547ACBA32D72399CF0B9D53F49729A9C /* Skynet.modulemap */,
+				C54213D4569B3279140AA8AC39687B86 /* Skynet-dummy.m */,
+				D848313BA640052FDD0C93BE74379E56 /* Skynet-Info.plist */,
+				79DE5A9263DB8019C97655B91AEEAFAA /* Skynet-prefix.pch */,
+				0B74761E144CAFF08562A724B25462E3 /* Skynet-umbrella.h */,
+				308E53FA1E282FC16CDFE1436AE5B31B /* Skynet.debug.xcconfig */,
+				55BE87D6F217E987F877B467998AF40E /* Skynet.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "Example/Pods/Target Support Files/Skynet";
+			sourceTree = "<group>";
+		};
 		CF1408CF629C7361332E53B88F7BD30C = {
 			isa = PBXGroup;
 			children = (
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
-				DE364CEE7EE0A3D0093BC3CDF8ED6713 /* Development Pods */,
+				197478784E76D26032E333F9BBB60BBE /* Development Pods */,
 				D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */,
 				D7E643A644A1F7CE7C7C32C7A760CEDF /* Products */,
 				FC5CCB45A19ABFB86D3C0D343E202848 /* Targets Support Files */,
@@ -156,22 +159,19 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D960F60280041DB779D4DDEDD55879A4 /* Pod */ = {
+		ED90C231ED1834485CD1616E404C1956 /* Skynet */ = {
 			isa = PBXGroup;
 			children = (
-				8F4CBCA757F02646D85FE568CC2E9B83 /* LICENSE */,
-				9B6A1D6E9FF2BAB61053F02606B2BDED /* README.md */,
-				3C0EDF0452D8EA1FFB2B0F3CD5759398 /* Skynet.podspec */,
+				D0B090DDA197587CAD19AE3A56787716 /* Download.swift */,
+				53FF1FEA54DD664DEEC64ABDEDE31B2D /* NSURLSession+Multipart.swift */,
+				A2B199B3F013C5F57AFE262E645BC282 /* Skynet.swift */,
+				CC4021603FA80D9CCB3204847364151F /* Upload.swift */,
+				6EF3713368E42AF2F4FC97BB0D559C54 /* Model */,
+				15EAEDFD010452183627610D5FA3C65E /* Pod */,
+				86B02A72324FA13AF60B986F091E0958 /* Support Files */,
 			);
-			name = Pod;
-			sourceTree = "<group>";
-		};
-		DE364CEE7EE0A3D0093BC3CDF8ED6713 /* Development Pods */ = {
-			isa = PBXGroup;
-			children = (
-				4AC2197827DF2E0228725A95298F1F0D /* Skynet */,
-			);
-			name = "Development Pods";
+			name = Skynet;
+			path = ../..;
 			sourceTree = "<group>";
 		};
 		F5EE839D182F0AA80EFF0CAE6D3177D2 /* Pods-Skynet_Tests */ = {
@@ -202,11 +202,11 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		09EE0074763FD0388798424E4986D94F /* Headers */ = {
+		6D8ECF5DDD1AB2E53237215C30A1126E /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3AAAC8AC266761CE2DBA9FBA46D96F37 /* Skynet-umbrella.h in Headers */,
+				FE6217194F7C7D11FB6C0AE77D683CA2 /* Skynet-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,7 +233,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				8CF4B0CAD1D9E7919457334EFD77BAA7 /* PBXTargetDependency */,
+				61F9BF0CAA1DB91966F7E8D1B7624749 /* PBXTargetDependency */,
 			);
 			name = "Pods-Skynet_Tests";
 			productName = "Pods-Skynet_Tests";
@@ -242,12 +242,12 @@
 		};
 		9428B87C93EC7BE0394556C0F3FEE583 /* Skynet */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C9463D391589BBA16118CB3E19D3359F /* Build configuration list for PBXNativeTarget "Skynet" */;
+			buildConfigurationList = 3BE0811620AB0756903EDACC1D3284C3 /* Build configuration list for PBXNativeTarget "Skynet" */;
 			buildPhases = (
-				09EE0074763FD0388798424E4986D94F /* Headers */,
-				EA55BB06BC4B502F3869A2B370A6633B /* Sources */,
-				C736B719499E668B5549F86DFF37C60F /* Frameworks */,
-				9FA98ECE2A31C7B2CEC6F3E9E7CF1BCB /* Resources */,
+				6D8ECF5DDD1AB2E53237215C30A1126E /* Headers */,
+				B31CA00D79A269EAD0430F6F53A8469D /* Sources */,
+				A7CB4A32D8CF09194465AAE93DFB42EC /* Frameworks */,
+				6DCFCD68A0517A82A38544A830AB9F84 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -294,7 +294,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9FA98ECE2A31C7B2CEC6F3E9E7CF1BCB /* Resources */ = {
+		6DCFCD68A0517A82A38544A830AB9F84 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -312,32 +312,96 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		EA55BB06BC4B502F3869A2B370A6633B /* Sources */ = {
+		B31CA00D79A269EAD0430F6F53A8469D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				481CF972263DC9A40027C4A1 /* Upload.swift in Sources */,
-				481CF978263DCA4B0027C4A1 /* NSURLSession+Multipart.swift in Sources */,
-				481CF96E263DC9670027C4A1 /* Skynet.swift in Sources */,
-				481CF989263DD87C0027C4A1 /* Download.swift in Sources */,
-				481CF980263DD07C0027C4A1 /* SkynetResponse.swift in Sources */,
-				ACE64111F1935873C4F02B0CEB2F403B /* Skynet-dummy.m in Sources */,
+				1B2EC623C9DAF456D87E7F0953100D6A /* Download.swift in Sources */,
+				F19FEF3388D924DD9F7419A9A41F3B92 /* NSURLSession+Multipart.swift in Sources */,
+				07F89F7E64AFD9DB069126CDED654417 /* Skynet-dummy.m in Sources */,
+				B1F04D0B6F19C7B118F392307DBE6B51 /* Skynet.swift in Sources */,
+				705E1ADFDE0D3FB044964147F3C08793 /* SkynetResponse.swift in Sources */,
+				19BA5A033EBB98F54DDE30A2BA513E15 /* Upload.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		8CF4B0CAD1D9E7919457334EFD77BAA7 /* PBXTargetDependency */ = {
+		61F9BF0CAA1DB91966F7E8D1B7624749 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Skynet;
 			target = 9428B87C93EC7BE0394556C0F3FEE583 /* Skynet */;
-			targetProxy = 202125A7E0FDBCD3B3B4228597232621 /* PBXContainerItemProxy */;
+			targetProxy = D3AD2F200E0D0C06C6E7075FB1DEFEB3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		431BA2B8298F0EE71735B9E0114E1955 /* Release */ = {
+		12146CFBDC96C43805074D9BA18B8301 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 29CAAA1D02D223AFFBA7F594B30A2613 /* Pods-Skynet_Tests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-Skynet_Tests/Pods-Skynet_Tests-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-Skynet_Tests/Pods-Skynet_Tests.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		73C74E83F0F2660F4EBDEC811658569A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 308E53FA1E282FC16CDFE1436AE5B31B /* Skynet.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/Skynet/Skynet-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Skynet/Skynet-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Skynet/Skynet.modulemap";
+				PRODUCT_MODULE_NAME = Skynet;
+				PRODUCT_NAME = Skynet;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		7EE7A78859F657F6BEFC651185B43192 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -387,21 +451,23 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				SYMROOT = "${SRCROOT}/../build";
 			};
 			name = Release;
 		};
-		4AE10C16069CFC27B4366AF828BCD82B /* Debug */ = {
+		924E0779D6E8200C5C57ABA567AF2865 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D76889AADA82E4E72DC445CE2F8DC52D /* Skynet.debug.xcconfig */;
+			baseConfigurationReference = 55BE87D6F217E987F877B467998AF40E /* Skynet.release.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
@@ -413,7 +479,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/Skynet/Skynet-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/Skynet/Skynet-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = "Target Support Files/Skynet/Skynet.modulemap";
 				PRODUCT_MODULE_NAME = Skynet;
@@ -423,12 +489,47 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Debug;
+			name = Release;
 		};
-		79759604D78320E712558F49DF19AA9F /* Debug */ = {
+		9ACCFBC7AD032DC2E2C920A41DE08312 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9524DB3CFDAE31248012E2246434373B /* Pods-Skynet_Tests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-Skynet_Tests/Pods-Skynet_Tests-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-Skynet_Tests/Pods-Skynet_Tests.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		D299434AB35E7FD6F7921C8EF24742FF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -481,7 +582,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -494,110 +595,23 @@
 			};
 			name = Debug;
 		};
-		94A76E221D046B93312C46843C83B7C5 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 29CAAA1D02D223AFFBA7F594B30A2613 /* Pods-Skynet_Tests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-Skynet_Tests/Pods-Skynet_Tests-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-Skynet_Tests/Pods-Skynet_Tests.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		B4E7F1E7ED55C5B8DB2286F33A80070E /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = D9BB338B5A1C9229AACD0998D3A71A95 /* Skynet.release.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/Skynet/Skynet-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Skynet/Skynet-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/Skynet/Skynet.modulemap";
-				PRODUCT_MODULE_NAME = Skynet;
-				PRODUCT_NAME = Skynet;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		F1BC88C2F61E174C4D930F672C0ECE8E /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9524DB3CFDAE31248012E2246434373B /* Pods-Skynet_Tests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-Skynet_Tests/Pods-Skynet_Tests-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-Skynet_Tests/Pods-Skynet_Tests.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3BE0811620AB0756903EDACC1D3284C3 /* Build configuration list for PBXNativeTarget "Skynet" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				73C74E83F0F2660F4EBDEC811658569A /* Debug */,
+				924E0779D6E8200C5C57ABA567AF2865 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				79759604D78320E712558F49DF19AA9F /* Debug */,
-				431BA2B8298F0EE71735B9E0114E1955 /* Release */,
+				D299434AB35E7FD6F7921C8EF24742FF /* Debug */,
+				7EE7A78859F657F6BEFC651185B43192 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -605,17 +619,8 @@
 		51FDABE101E71BF7CC482797CF68B9E6 /* Build configuration list for PBXNativeTarget "Pods-Skynet_Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				94A76E221D046B93312C46843C83B7C5 /* Debug */,
-				F1BC88C2F61E174C4D930F672C0ECE8E /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		C9463D391589BBA16118CB3E19D3359F /* Build configuration list for PBXNativeTarget "Skynet" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				4AE10C16069CFC27B4366AF828BCD82B /* Debug */,
-				B4E7F1E7ED55C5B8DB2286F33A80070E /* Release */,
+				12146CFBDC96C43805074D9BA18B8301 /* Debug */,
+				9ACCFBC7AD032DC2E2C920A41DE08312 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

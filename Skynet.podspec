@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'Skynet'
   s.version          = '0.1.0'
-  s.summary          = 'A short description of Skynet.'
+  s.summary          = 'Skynet SDK for iOS and macOS'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -18,19 +18,20 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+  Use Sia Skynet in your iOS or macOS projects (Decentralized database)
                        DESC
 
-  s.homepage         = 'https://github.com/Pedro Paulo de Amorim/Skynet'
+  s.homepage         = 'https://github.com/ppamorim/skynet-swift'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Pedro Paulo de Amorim' => 'pp.amorim@hotmail.com' }
-  s.source           = { :git => 'https://github.com/Pedro Paulo de Amorim/Skynet.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/ppamorim/skynet-swift.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
+  s.source_files = 'Sources/**/*.swift'
+  s.swift_versions = ['5.2']
   s.ios.deployment_target = '10.0'
-
-  s.source_files = 'Skynet/Classes/**/*'
+  s.osx.deployment_target = '10.10'
   
   # s.resource_bundles = {
   #   'Skynet' => ['Skynet/Assets/*.png']

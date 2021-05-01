@@ -7,7 +7,11 @@
 //
 
 import Foundation
+#if os(iOS)
 import MobileCoreServices
+#else
+import CoreServices
+#endif
 
 extension URLSession {
 
@@ -163,7 +167,7 @@ public func uploadMultipartTask(url: URL, parameters: [String: AnyObject]?, file
 
   /// Determine mime type on the basis of extension of a file.
   ///
-  /// This requires MobileCoreServices framework.
+  /// This requires MobileCoreServices (iOS) or CoreServices (macOS) framework.
   ///
   /// - parameter path:         The path of the file for which we are going to determine the mime type.
   ///
