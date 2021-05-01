@@ -1,15 +1,22 @@
 PODS:
-  - Skynet (0.1.0)
+  - CryptoSwift (1.4.0)
+  - Skynet (0.1.0):
+    - CryptoSwift (~> 1.4.0)
 
 DEPENDENCIES:
   - Skynet (from `../`)
+
+SPEC REPOS:
+  trunk:
+    - CryptoSwift
 
 EXTERNAL SOURCES:
   Skynet:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Skynet: 37fcaa0dfffd99a3643676fadfbfd18964178c85
+  CryptoSwift: 7cc902df1784de3b389a387756c7d710f197730c
+  Skynet: bc669771a0e3f5ec1f5a21c62bf1ee31c52d6e2b
 
 PODFILE CHECKSUM: c218a68b11fbd229f39ed088795d3479aa029eff
 

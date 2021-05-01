@@ -28,7 +28,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/ppamorim/skynet-swift.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.source_files = 'Sources/**/*.swift'
+  s.source_files = 'Sources/**/*.swift', 'Sources/**/Blake2b/*.{h,m,c}'
   s.swift_versions = ['5.2']
   s.ios.deployment_target = '10.0'
   s.osx.deployment_target = '10.10'
@@ -37,7 +37,6 @@ Pod::Spec.new do |s|
   #   'Skynet' => ['Skynet/Assets/*.png']
   # }
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+  # s.public_header_files = 'Sources/**/*.h'
+  s.dependency 'CryptoSwift', '~> 1.4.0'
 end

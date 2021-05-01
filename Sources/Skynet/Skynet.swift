@@ -25,4 +25,8 @@ public struct Skynet {
     Upload.upload(queue, fileURL, fileName: fileName, completion)
   }
 
+  struct Config {
+    static let host = ""
+  }
+
 }

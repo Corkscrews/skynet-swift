@@ -10,6 +10,9 @@
 #endif
 #endif
 
+#import "blake2-impl.h"
+#import "blake2.h"
+#import "NSObject+blake2b.h"
 
 FOUNDATION_EXPORT double SkynetVersionNumber;
 FOUNDATION_EXPORT const unsigned char SkynetVersionString[];
