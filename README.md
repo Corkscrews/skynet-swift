@@ -1,6 +1,5 @@
 # Skynet
 
-[![CI Status](https://img.shields.io/travis/Pedro Paulo de Amorim/Skynet.svg?style=flat)](https://travis-ci.org/Pedro Paulo de Amorim/Skynet)
 [![Version](https://img.shields.io/cocoapods/v/Skynet.svg?style=flat)](https://cocoapods.org/pods/Skynet)
 [![License](https://img.shields.io/cocoapods/l/Skynet.svg?style=flat)](https://cocoapods.org/pods/Skynet)
 [![Platform](https://img.shields.io/cocoapods/p/Skynet.svg?style=flat)](https://cocoapods.org/pods/Skynet)
