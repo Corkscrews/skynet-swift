@@ -1,0 +1,6 @@
+use_frameworks!
+target 'Skynet_Tests' do
+  pod 'Skynet', :path => '../'
+  
+  
+end

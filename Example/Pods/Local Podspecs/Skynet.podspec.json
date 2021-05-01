@@ -1,0 +1,22 @@
+{
+  "name": "Skynet",
+  "version": "0.1.0",
+  "summary": "A short description of Skynet.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/Pedro Paulo de Amorim/Skynet",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Pedro Paulo de Amorim": "pp.amorim@hotmail.com"
+  },
+  "source": {
+    "git": "https://github.com/Pedro Paulo de Amorim/Skynet.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "9.0"
+  },
+  "source_files": "Skynet/Classes/**/*"
+}

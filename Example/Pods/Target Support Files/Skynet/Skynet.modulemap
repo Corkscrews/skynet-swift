@@ -1,0 +1,6 @@
+framework module Skynet {
+  umbrella header "Skynet-umbrella.h"
+
+  export *
+  module * { export * }
+}

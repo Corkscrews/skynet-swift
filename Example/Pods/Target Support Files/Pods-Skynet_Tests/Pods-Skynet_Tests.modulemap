@@ -1,0 +1,6 @@
+framework module Pods_Skynet_Tests {
+  umbrella header "Pods-Skynet_Tests-umbrella.h"
+
+  export *
+  module * { export * }
+}
