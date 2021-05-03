@@ -17,7 +17,14 @@ internal struct Upload {
 
     queue.async {
 
-      let task = try? URLSession.shared.uploadMultipartTask(
+      let sessionConfig = URLSessionConfiguration.default
+      sessionConfig.timeoutIntervalForRequest = 120.0
+      sessionConfig.timeoutIntervalForResource = 120.0
+      let session = URLSession(configuration: sessionConfig)
+
+      do {
+
+      let task = try session.uploadMultipartTask(
         url: URL(string: "\(Skynet.Config.host)/skynet/skyfile")!,
         parameters: nil,
         fileKeyName: fileName ?? fileURL.lastPathComponent,
@@ -43,7 +50,11 @@ internal struct Upload {
 
         })
 
-      task?.resume()
+      task.resume()
+
+      } catch {
+        completion(.failure(error))
+      }
 
     }
 

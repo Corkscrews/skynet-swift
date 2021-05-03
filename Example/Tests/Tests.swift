@@ -55,18 +55,24 @@ class Tests: XCTestCase {
 
   func testUpdateAndDownload() {
 
+    // This dispatch queue is optional. If not defined, Skynet will dispatch
+    // to the main queue, which is not recommended.
+    let dispatchQueue = DispatchQueue(label: "TestDispatchQueue", qos: .userInitiated)
+
+    print("Starting upload of file")
+
     let fileManager = FileManager.default
     let directory = fileManager.temporaryDirectory
     let fileURL = directory.appendingPathComponent("upload.json")
 
-    let data = Data([1, 1, 1, 1])
+    let data = randomData(100000)
     try! data.write(to: fileURL, options: .atomic)
 
     var skylink: Skylink!
 
     let expectUpload = XCTestExpectation(description: "Wait the file to upload")
 
-    Skynet.upload(fileURL: fileURL) { (result: Result<SkynetResponse, Swift.Error>) in
+    Skynet.upload(queue: dispatchQueue, fileURL: fileURL) { (result: Result<SkynetResponse, Swift.Error>) in
       switch result {
       case .success(let response):
         XCTAssertFalse(response.skylink.isEmpty)
@@ -78,28 +84,92 @@ class Tests: XCTestCase {
       expectUpload.fulfill()
     }
 
-    wait(for: [expectUpload], timeout: 60.0)
+    wait(for: [expectUpload], timeout: 120.0)
+
+    if skylink == nil {
+      fatalError()
+    }
+
+    print("File upload completed")
+    print("Downloading file")
 
     let fileURLDownload: URL = directory.appendingPathComponent("download.json")
     try? fileManager.removeItem(at: fileURLDownload)
 
-    let expectDownload = XCTestExpectation(description: "Wait the file to download")
+    let expectFileDownload = XCTestExpectation(description: "Wait the file to download")
 
-    Skynet.download(skylink: skylink, saveTo: fileURLDownload) { (result: Result<SkyFile, Swift.Error>) in
+    Skynet.download(
+      queue: dispatchQueue,
+      skylink: skylink,
+      saveTo: fileURLDownload
+    ) { (result: Result<SkyFile, Swift.Error>) in
       switch result {
       case .success(let response):
         XCTAssertEqual(response.fileURL, fileURLDownload)
         XCTAssertEqual(response.fileName, "download.json")
         XCTAssertEqual(response.type, "application/octet-stream")
 
+        XCTAssertEqual(Int(self.size(fileURLDownload.path)), data.count)
+
       case .failure(let error):
         XCTFail("Upload to Skynet should not fail. Error: \(error)")
       }
-      expectDownload.fulfill()
+      expectFileDownload.fulfill()
     }
 
-    wait(for: [expectDownload], timeout: 60.0)
+    wait(for: [expectFileDownload], timeout: 60.0)
 
+    try? fileManager.removeItem(at: fileURLDownload)
+
+    print("File download completed")
+    print("Downloading file as stream")
+
+    let expectStreamDownload = XCTestExpectation(description: "Wait the file to download as stream")
+
+    let mutableData: NSMutableData = NSMutableData()
+
+    Skynet.download(
+      queue: dispatchQueue,
+      skylink: skylink,
+      didReceiveData: { (data: Data, contentLength: Int64) in
+        mutableData.append(data)
+        XCTAssertGreaterThanOrEqual(contentLength, 0)
+        print("Downloaded \(mutableData.length) of \(contentLength) bytes")
+      },
+      completion: { (totalReceivedData: Int64) in
+        expectStreamDownload.fulfill()
+        XCTAssertEqual(mutableData.count, data.count)
+      }
+    )
+
+    wait(for: [expectStreamDownload], timeout: 60.0)
+
+    print("Download of file as stream completed")
+
+
+  }
+
+  public func randomData(_ length: Int) -> Data {
+    var bytes = [UInt8](repeating: 0, count: length)
+    let status = SecRandomCopyBytes(kSecRandomDefault, length, &bytes)
+    if status == errSecSuccess {
+        return Data(bytes: bytes)
+    }
+    fatalError()
+  }
+
+  func size(_ filePath: String) -> UInt64 {
+    do {
+        let fileAttributes = try FileManager.default.attributesOfItem(atPath: filePath)
+        if let fileSize = fileAttributes[FileAttributeKey.size]  {
+            return (fileSize as! NSNumber).uint64Value
+        } else {
+            print("Failed to get a size attribute from path: \(filePath)")
+        }
+    } catch {
+        print("Failed to get file attributes for local path: \(filePath) with error: \(error)")
+    }
+    return 0
   }
 
 }

@@ -7,7 +7,79 @@
 
 import Foundation
 
-struct Download {
+private struct SkynetFileMetadata: Codable {
+  let length: Int64
+}
+
+final class Download: NSObject, URLSessionDataDelegate {
+
+  // MARK: Stream properties
+
+  private var task: URLSessionTask?
+  private var didReceiveData: ((Data, Int64) -> Void)?
+  private var completion: ((Int64) -> Void)?
+
+  private var totalReceivedData: Int64 = 0
+  private var expectedContentLength: Int64 = -1
+
+
+  deinit {
+    task?.cancel()
+    task = nil
+    didReceiveData = nil
+    completion = nil
+  }
+
+  // MARK: Stream download
+
+  func download(
+    _ queue: DispatchQueue,
+    _ skylink: Skylink,
+    _ didReceiveData: @escaping (Data, Int64) -> Void,
+    _ completion: @escaping (Int64) -> Void) {
+
+    queue.async {
+
+      if self.didReceiveData != nil || self.task != nil {
+        fatalError("When using stream download, you must create a instance of Download for each download.")
+      }
+
+      let session = URLSession(configuration: URLSessionConfiguration.default, delegate: self, delegateQueue: nil)
+      let urlToDownload = URL(string: "\(Skynet.Config.host)/\(skylink)")!
+
+      self.didReceiveData = didReceiveData
+      self.completion = completion
+
+      self.task?.cancel()
+      self.task = session.dataTask(with: URLRequest(url: urlToDownload))
+      self.task?.resume()
+
+    }
+  }
+
+  func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+    self.didReceiveData?(data, expectedContentLength)
+    self.totalReceivedData += Int64(data.count)
+    if totalReceivedData >= expectedContentLength {
+      completion?(totalReceivedData)
+      completion = nil //Prevent any additional call if more data gets received.
+    }
+  }
+
+  func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
+    expectedContentLength = response.expectedContentLength
+    if expectedContentLength < 0,
+       let allHeaderFields = (response as? HTTPURLResponse)?.allHeaderFields,
+       let skynetFileMetadata = allHeaderFields.first(where: { key, _ in key as! String == "skynet-file-metadata" }),
+       let value: String = skynetFileMetadata.value as? String,
+       let data = value.data(using: .utf8),
+       let metadata = try? JSONDecoder().decode(SkynetFileMetadata.self, from: data) {
+      expectedContentLength = metadata.length
+    }
+    completionHandler(URLSession.ResponseDisposition.allow)
+  }
+
+  // MARK: File download
 
   static func download(
     _ queue: DispatchQueue,
@@ -16,6 +88,7 @@ struct Download {
     _ completion: @escaping (Result<SkyFile, Error>) -> Void) {
 
     queue.async {
+
       let urlToDownload = URL(string: "\(Skynet.Config.host)/\(skylink)")!
       let task = URLSession.shared.downloadTask(with: urlToDownload) { (url, response, error) in
 
@@ -42,6 +115,7 @@ struct Download {
         }
 
       }
+
       task.resume()
     }
 
