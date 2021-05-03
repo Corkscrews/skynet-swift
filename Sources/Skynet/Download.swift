@@ -18,7 +18,20 @@ struct Download {
     queue.async {
       let urlToDownload = URL(string: "\(Skynet.Config.host)/\(skylink)")!
       let task = URLSession.shared.downloadTask(with: urlToDownload) { (url, response, error) in
-        guard let fileURL: URL = url else { return }
+
+        guard let fileURL: URL = url,
+          let response = response as? HTTPURLResponse,
+          (200 ..< 300) ~= response.statusCode else {
+
+          if let error = error {
+            completion(.failure(error))
+            return
+          }
+
+          completion(.failure(NSError(domain: "Unknown error", code: 1))) // TODO: Replace with enum
+          return
+        }
+
         do {
           try FileManager.default.moveItem(at: fileURL, to: saveTo)
           let mimeType: String = URLSession.mimeTypeForPath(path: fileURL.path)
@@ -27,6 +40,7 @@ struct Download {
         } catch {
           completion(.failure(error))
         }
+
       }
       task.resume()
     }

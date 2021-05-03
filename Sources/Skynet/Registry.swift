@@ -57,8 +57,6 @@ public struct SignedRegistryEntry: Decodable {
     self.signature = Signature(signature: entryResponse.signature.signature, publicKey: user.publicKey)
   }
 
-
-
 }
 
 struct Signature: Decodable {
@@ -124,13 +122,13 @@ public struct Registry {
 
       let task = URLSession.shared.dataTask(with: request) { data, response, error in
 
-        guard let _ = data,                            // is there data
-          let response = response as? HTTPURLResponse,  // is there HTTP response
-          (200 ..< 300) ~= response.statusCode,         // is statusCode 2XX
-          error == nil else {
+        guard let _ = data,
+          let response = response as? HTTPURLResponse,
+          response.statusCode == 204 else {
 
           if let error = error {
             completion(.failure(error))
+            return
           }
 
           completion(.failure(NSError(domain: "Unknown error", code: 1))) // TODO: Replace with enum
@@ -166,13 +164,14 @@ public struct Registry {
       let request: URLRequest = URLRequest(url: components.url!)
 
       let task = URLSession.shared.dataTask(with: request) { data, response, error in
-        guard let data = data,                            // is there data
-          let response = response as? HTTPURLResponse,  // is there HTTP response
-          (200 ..< 300) ~= response.statusCode,         // is statusCode 2XX
-          error == nil else {
+
+        guard let data = data,
+          let response = response as? HTTPURLResponse,
+          (200 ..< 300) ~= response.statusCode else {
 
           if let error = error {
             completion(.failure(error))
+            return
           }
 
           completion(.failure(NSError(domain: "Unknown error", code: 1))) // TODO: Replace with enum

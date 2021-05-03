@@ -27,7 +27,9 @@ internal struct Upload {
           guard let data = data else {
             if let error = error {
               completion(.failure(error))
+              return
             }
+            completion(.failure(NSError(domain: "Unknown error", code: 1))) // TODO: Replace with enum
             return
           }
 

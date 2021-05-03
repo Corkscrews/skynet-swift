@@ -48,6 +48,10 @@ class Tests: XCTestCase {
     XCTAssertEqual(base64, "luOAY83Qm9vFXolEpw/bBlCPk1DW9McE+UtfgNMbbOw=")
     XCTAssertEqual(hex, "96e38063cdd09bdbc55e8944a70fdb06508f9350d6f4c704f94b5f80d31b6cec")
   }
+
+  func testSkynetUser() {
+    // Where is SkynetUser?
+  }
     
   func testUpdateAndDownload() {
 
