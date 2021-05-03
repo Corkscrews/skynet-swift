@@ -199,5 +199,8 @@ private func hashDataKey(_ dataKey: String) -> Data {
   let list = padding + encoded
   Blake2b().hash(withDigestSize: 256, data: list) //Totally wrong
   return encoded
-  
+}
+
+public withPadding(i: Int): Data {
+
 }
