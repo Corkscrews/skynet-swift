@@ -21,7 +21,8 @@ struct Download {
         guard let fileURL: URL = url else { return }
         do {
           try FileManager.default.moveItem(at: fileURL, to: saveTo)
-          let skyFile = SkyFile(fileURL: saveTo, fileName: fileURL.lastPathComponent, type: "")
+          let mimeType: String = URLSession.mimeTypeForPath(path: fileURL.path)
+          let skyFile = SkyFile(fileURL: saveTo, fileName: fileURL.lastPathComponent, type: mimeType)
           completion(.success(skyFile))
         } catch {
           completion(.failure(error))
