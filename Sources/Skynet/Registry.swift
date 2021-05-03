@@ -2,7 +2,7 @@ import Foundation
 import CryptoSwift
 import ed25519swift
 
-struct RegistryEntry: Codable {
+public struct RegistryEntry: Codable {
 
   let dataKey: String?
   let hashedDataKey: Data?
@@ -10,7 +10,7 @@ struct RegistryEntry: Codable {
   let data: Data
   let revision: Int
 
-  init(dataKey: String? = nil, hashedDataKey: Data? = nil, data: Data, revision: Int) {
+  public init(dataKey: String? = nil, hashedDataKey: Data? = nil, data: Data, revision: Int) {
     self.dataKey = dataKey
     self.hashedDataKey = hashedDataKey
     self.data = data
@@ -26,7 +26,7 @@ struct RegistryEntry: Codable {
     withPadding(revision) + data
   }
 
-  func hash() -> Data {
+  public func hash() -> Data {
 
     let hashedDataKey: Data
     if let dataKey: String = self.dataKey {

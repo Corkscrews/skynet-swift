@@ -11,6 +11,35 @@ class Tests: XCTestCase {
     super.tearDown()
   }
 
+  func testWithPadding() {
+    let integer = 123
+    let result = withPadding(integer)
+    XCTAssert(!result.isEmpty)
+    let hex = result.hexEncodedString()
+    XCTAssertEqual(hex, "7b00000000000000")
+  }
+
+  func testHashRegistryValue() {
+
+    let entry = RegistryEntry(
+      dataKey: "HelloWorld",
+      data: "abc".data(using: String.Encoding.utf8)!,
+      revision: 123456789)
+
+    let hash: Data = entry.hash()
+    let encodedHash = hash.hexEncodedString()
+
+    XCTAssertEqual(encodedHash, "788dddf5232807611557a3dc0fa5f34012c2650526ba91d55411a2b04ba56164")
+
+  }
+
+  func testDeriveChildSeed() {
+    let digest = deriveChildSeed(
+      masterSeed: "788dddf5232807611557a3dc0fa5f34012c2650526ba91d55411a2b04ba56164",
+      derivationPath: "skyfeed")
+    XCTAssertEqual(digest, "6694f6cfd45be4d920d9c9643ab0f97da36e8d0576054121cba8612eec92fdc6")
+  }
+
   func testBlake2b() {
     let data = "TestBlake2b".data(using: .utf8)!
     let digest = Blake2b.hash(withDigestSize: 256, data: data)
@@ -47,7 +76,8 @@ class Tests: XCTestCase {
 
     wait(for: [expectUpload], timeout: 60.0)
 
-    let fileURLDownload = directory.appendingPathComponent("download.json")
+    let fileURLDownload: URL = directory.appendingPathComponent("download.json")
+    try? fileManager.removeItem(at: fileURLDownload)
 
     let expectDownload = XCTestExpectation(description: "Wait the file to download")
 
@@ -55,6 +85,9 @@ class Tests: XCTestCase {
       switch result {
       case .success(let response):
         XCTAssertEqual(response.fileURL, fileURLDownload)
+        XCTAssertEqual(response.fileName, "download.json")
+        XCTAssertEqual(response.type, "application/octet-stream")
+
       case .failure(let error):
         XCTFail("Upload to Skynet should not fail. Error: \(error)")
       }
@@ -68,13 +101,15 @@ class Tests: XCTestCase {
 }
 
 extension Data {
-    struct HexEncodingOptions: OptionSet {
-        let rawValue: Int
-        static let upperCase = HexEncodingOptions(rawValue: 1 << 0)
-    }
 
-    func hexEncodedString(options: HexEncodingOptions = []) -> String {
-        let format = options.contains(.upperCase) ? "%02hhX" : "%02hhx"
-        return self.map { String(format: format, $0) }.joined()
-    }
+  struct HexEncodingOptions: OptionSet {
+    let rawValue: Int
+    static let upperCase = HexEncodingOptions(rawValue: 1 << 0)
+  }
+
+  func hexEncodedString(options: HexEncodingOptions = []) -> String {
+    let format = options.contains(.upperCase) ? "%02hhX" : "%02hhx"
+    return self.map { String(format: format, $0) }.joined()
+  }
+
 }

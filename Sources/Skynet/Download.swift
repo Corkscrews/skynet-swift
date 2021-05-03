@@ -22,7 +22,7 @@ struct Download {
         do {
           try FileManager.default.moveItem(at: fileURL, to: saveTo)
           let mimeType: String = URLSession.mimeTypeForPath(path: fileURL.path)
-          let skyFile = SkyFile(fileURL: saveTo, fileName: fileURL.lastPathComponent, type: mimeType)
+          let skyFile = SkyFile(fileURL: saveTo, fileName: saveTo.lastPathComponent, type: mimeType)
           completion(.success(skyFile))
         } catch {
           completion(.failure(error))

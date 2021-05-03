@@ -16,15 +16,17 @@ internal func hashRawDataKey(_ data: Data) -> Data {
   return Blake2b.hash(withDigestSize: 256, data: dataWithPadding)
 }
 
-internal func withPadding(_ i: Int) -> Data {
+public func withPadding(_ i: Int) -> Data {
   if i < 0 {
     return Data([])
   }
-  var value = UInt64(littleEndian: UInt64(i))
-  return Data(withUnsafeBytes(of: &value) { Array($0) })
+  var value = i.littleEndian
+  return Data(
+    bytes: &value,
+    count: MemoryLayout.size(ofValue: value))
 }
 
-internal func deriveChildSeed(masterSeed: String, derivationPath: String) -> String {
+public func deriveChildSeed(masterSeed: String, derivationPath: String) -> String {
 
   let data: Data = withPadding(masterSeed.count)
     + masterSeed.data(using: String.Encoding.utf8)!
@@ -33,5 +35,19 @@ internal func deriveChildSeed(masterSeed: String, derivationPath: String) -> Str
 
   let digest = Blake2b.hash(withDigestSize: 256, data: data)
 
-  return digest.base64EncodedString()
+  return digest.toHexString()
+}
+
+extension Data {
+
+  struct HexEncodingOptions: OptionSet {
+    let rawValue: Int
+    static let upperCase = HexEncodingOptions(rawValue: 1 << 0)
+  }
+
+  func hexEncodedString(options: HexEncodingOptions = []) -> String {
+    let format = options.contains(.upperCase) ? "%02hhX" : "%02hhx"
+    return self.map { String(format: format, $0) }.joined()
+  }
+
 }
