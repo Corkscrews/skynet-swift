@@ -13,7 +13,7 @@ internal func hashDataKey(_ dataKey: String) -> Data {
 
 internal func hashRawDataKey(_ data: Data) -> Data {
   let dataWithPadding: Data = withPadding(data.count) + data
-  return Blake2b().hash(withDigestSize: 256, data: dataWithPadding)
+  return Blake2b.hash(withDigestSize: 256, data: dataWithPadding)
 }
 
 internal func withPadding(_ i: Int) -> Data {
@@ -31,7 +31,7 @@ internal func deriveChildSeed(masterSeed: String, derivationPath: String) -> Str
     + withPadding(derivationPath.count)
     + derivationPath.data(using: String.Encoding.utf8)!
 
-  let digest = Blake2b().hash(withDigestSize: 256, data: data)
+  let digest = Blake2b.hash(withDigestSize: 256, data: data)
 
   return digest.base64EncodedString()
 }

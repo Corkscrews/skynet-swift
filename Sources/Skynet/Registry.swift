@@ -40,7 +40,7 @@ struct RegistryEntry: Codable {
       + self.data
       + withPadding(self.revision)
 
-    return Blake2b().hash(withDigestSize: 256, data: data)
+    return Blake2b.hash(withDigestSize: 256, data: data)
   }
 
 }

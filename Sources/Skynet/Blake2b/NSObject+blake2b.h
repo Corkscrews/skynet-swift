@@ -10,7 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Blake2b: NSObject
--(NSData*) hashWithDigestSize:(int)size data:(NSData*)data;
++(NSData*) hashWithDigestSize:(int)size data:(NSData*)data;
 @end
 
 NS_ASSUME_NONNULL_END

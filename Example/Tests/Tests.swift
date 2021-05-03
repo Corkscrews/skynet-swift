@@ -12,14 +12,12 @@ class Tests: XCTestCase {
   }
 
   func testBlake2b() {
-
-    let data = "Test".data(using: .utf8)!
-    let digest = Blake2b().hash(withDigestSize: 256, data: data)
-    let string = digest.base64EncodedString()
-    print("digest: \(string)")
-    let d = digest.hexEncodedString()
-    print("digest D: \(d)")
-
+    let data = "TestBlake2b".data(using: .utf8)!
+    let digest = Blake2b.hash(withDigestSize: 256, data: data)
+    let base64 = digest.base64EncodedString()
+    let hex = digest.hexEncodedString()
+    XCTAssertEqual(base64, "luOAY83Qm9vFXolEpw/bBlCPk1DW9McE+UtfgNMbbOw=")
+    XCTAssertEqual(hex, "96e38063cdd09bdbc55e8944a70fdb06508f9350d6f4c704f94b5f80d31b6cec")
   }
     
   func testUpdateAndDownload() {
