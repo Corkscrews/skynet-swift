@@ -13,15 +13,16 @@ struct Download {
     _ queue: DispatchQueue,
     _ skylink: Skylink,
     _ saveTo: URL,
-    _ completion: @escaping (Result<URL, Error>) -> Void) {
+    _ completion: @escaping (Result<SkyFile, Error>) -> Void) {
 
     queue.async {
-      let url = URL(string: "\(Skynet.Config.host)/\(skylink)")!
-      let task = URLSession.shared.downloadTask(with: url) { (url, response, error) in
-        guard let fileURL = url else { return }
+      let urlToDownload = URL(string: "\(Skynet.Config.host)/\(skylink)")!
+      let task = URLSession.shared.downloadTask(with: urlToDownload) { (url, response, error) in
+        guard let fileURL: URL = url else { return }
         do {
           try FileManager.default.moveItem(at: fileURL, to: saveTo)
-          completion(.success(saveTo))
+          let skyFile = SkyFile(fileURL: saveTo, fileName: fileURL.lastPathComponent, type: "")
+          completion(.success(skyFile))
         } catch {
           completion(.failure(error))
         }

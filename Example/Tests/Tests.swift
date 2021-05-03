@@ -42,10 +42,10 @@ class Tests: XCTestCase {
 
       let expectDownload = XCTestExpectation(description: "Wait the file to download")
 
-      Skynet.download(skylink: skylink, saveTo: fileURLDownload) { (result: Result<URL, Swift.Error>) in
+      Skynet.download(skylink: skylink, saveTo: fileURLDownload) { (result: Result<SkyFile, Swift.Error>) in
         switch result {
         case .success(let response):
-          XCTAssertEqual(response, fileURLDownload)
+          XCTAssertEqual(response.fileURL, fileURLDownload)
         case .failure(let error):
           XCTFail("Upload to Skynet should not fail. Error: \(error)")
         }

@@ -60,7 +60,12 @@ struct EntryResponse: Decodable {
 
 public struct RegistryOpts {
   let hashedDatakey: String?
-  let timeoutInSeconds: Int = 10
+  let timeoutInSeconds: Int
+
+  init(hashedDatakey: String?, timeoutInSeconds: Int = 10) {
+    self.hashedDatakey = hashedDatakey
+    self.timeoutInSeconds = timeoutInSeconds
+  }
 }
 
 public struct RegistryPayload: Encodable {
@@ -76,12 +81,12 @@ public struct PublicKey: Codable {
   let key: Data
 }
 
-struct Registry {
+public struct Registry {
 
   private static let route: String = "/skynet/registry"
 
-  static func setEntry(
-    queue: DispatchQueue,
+  public static func setEntry(
+    queue: DispatchQueue = .main,
     user: SkynetUser,
     dataKey: String,
     srv: SignedRegistryEntry,
@@ -127,8 +132,8 @@ struct Registry {
 
   }
 
-  static func getEntry(
-    queue: DispatchQueue,
+  public static func getEntry(
+    queue: DispatchQueue = .main,
     user: SkynetUser,
     dataKey: String,
     opts: RegistryOpts,
@@ -188,7 +193,7 @@ struct Registry {
 
 }
 
-func hashDataKey(_ dataKey: String) -> Data {
+private func hashDataKey(_ dataKey: String) -> Data {
   let encoded = dataKey.data(using: String.Encoding.utf8)!
   let padding: Data = Data(Padding.pkcs7.add(to: encoded.bytes, blockSize: AES.blockSize))
   let list = padding + encoded
