@@ -18,7 +18,7 @@ internal struct Upload {
     queue.async {
 
       let task = try? URLSession.shared.uploadMultipartTask(
-        url: URL(string: "https://siasky.net/skynet/skyfile")!,
+        url: URL(string: "\(Skynet.Config.host)/skynet/skyfile")!,
         parameters: nil,
         fileKeyName: fileName ?? fileURL.lastPathComponent,
         fileURLs: [fileURL],

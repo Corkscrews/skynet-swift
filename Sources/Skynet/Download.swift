@@ -16,7 +16,7 @@ struct Download {
     _ completion: @escaping (Result<URL, Error>) -> Void) {
 
     queue.async {
-      let url = URL(string: "https://siasky.net/\(skylink)")!
+      let url = URL(string: "\(Skynet.Config.host)/\(skylink)")!
       let task = URLSession.shared.downloadTask(with: url) { (url, response, error) in
         guard let fileURL = url else { return }
         do {

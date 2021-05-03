@@ -7,6 +7,7 @@
 
 import Foundation
 
-struct SkynetUser {
+public struct SkynetUser {
   let id: Int
+  let publicKey: Data
 }

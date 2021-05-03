@@ -30,8 +30,8 @@ Pod::Spec.new do |s|
 
   s.source_files = 'Sources/**/*.swift', 'Sources/**/Blake2b/*.{h,m,c}'
   s.swift_versions = ['5.2']
-  s.ios.deployment_target = '10.0'
-  s.osx.deployment_target = '10.10'
+  s.ios.deployment_target = '12.1'
+  s.osx.deployment_target = '10.14'
   
   # s.resource_bundles = {
   #   'Skynet' => ['Skynet/Assets/*.png']
@@ -39,4 +39,5 @@ Pod::Spec.new do |s|
 
   # s.public_header_files = 'Sources/**/*.h'
   s.dependency 'CryptoSwift', '~> 1.4.0'
+  s.dependency 'ed25519swift', '~> 1.2.5'
 end

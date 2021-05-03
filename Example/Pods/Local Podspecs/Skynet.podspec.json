@@ -23,12 +23,15 @@
     "5.2"
   ],
   "platforms": {
-    "ios": "10.0",
-    "osx": "10.10"
+    "ios": "12.1",
+    "osx": "10.14"
   },
   "dependencies": {
     "CryptoSwift": [
       "~> 1.4.0"
+    ],
+    "ed25519swift": [
+      "~> 1.2.5"
     ]
   },
   "swift_version": "5.2"

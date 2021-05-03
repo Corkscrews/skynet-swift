@@ -9,6 +9,25 @@ import Foundation
 
 public struct Skynet {
 
+  public static func setRegistry(
+    queue: DispatchQueue = .main,
+    user: SkynetUser,
+    dataKey: String,
+    srv: SignedRegistryEntry,
+    opts: RegistryOpts,
+    _ completion: @escaping (Result<(), Swift.Error>) -> Void) {
+    Registry.setEntry(queue: queue, user: user, dataKey: dataKey, srv: srv, opts: opts, completion)
+  }
+
+  public static func getRegistry(
+    queue: DispatchQueue = .main,
+    user: SkynetUser,
+    dataKey: String,
+    opts: RegistryOpts,
+    _ completion: @escaping (Result<SignedRegistryEntry, Swift.Error>) -> Void) {
+    Registry.getEntry(queue: queue, user: user, dataKey: dataKey, opts: opts, completion)
+  }
+
   public static func download(
     queue: DispatchQueue = .main,
     skylink: Skylink,
@@ -26,7 +45,10 @@ public struct Skynet {
   }
 
   struct Config {
-    static let host = ""
+    static let host = "https://siasky.net"
+    static func host(_ route: String) -> String {
+      "\(host)\(route)"
+    }
   }
 
 }
