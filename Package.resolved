@@ -1,0 +1,25 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "CryptoSwift",
+        "repositoryURL": "https://github.com/krzyzanowskim/CryptoSwift.git",
+        "state": {
+          "branch": null,
+          "revision": "4e31051c63cc0ddf10a25cf5318856c510cf77f4",
+          "version": "1.4.0"
+        }
+      },
+      {
+        "package": "ed25519swift",
+        "repositoryURL": "https://github.com/pebble8888/ed25519swift.git",
+        "state": {
+          "branch": null,
+          "revision": "1e821f5516049f5b83aca8cb3b982910cf8c028c",
+          "version": "1.2.8"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

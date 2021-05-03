@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 /**
  A `Skynet` instance allows the download and upload of files to the Sia Skynet network.
  - warning: `Skynet.download` has two modes based in file or stream of data.
