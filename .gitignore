@@ -36,3 +36,5 @@ Carthage/Build
 #
 Example/Pods
 Example/Podfile.lock
+
+_Pods.xcodeproj
