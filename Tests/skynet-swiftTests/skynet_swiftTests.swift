@@ -10,6 +10,6 @@ final class skynet_swiftTests: XCTestCase {
     }
 
     static var allTests = [
-        ("testExample", testExample),
+        ("testExample", testExample)
     ]
 }

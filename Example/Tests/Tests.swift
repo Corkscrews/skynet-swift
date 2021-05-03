@@ -2,7 +2,7 @@ import XCTest
 import Skynet
 
 class Tests: XCTestCase {
-    
+
   override func setUp() {
     super.setUp()
   }
@@ -52,14 +52,14 @@ class Tests: XCTestCase {
   func testSkynetUser() {
     // Where is SkynetUser?
   }
-    
+
   func testUpdateAndDownload() {
 
     let fileManager = FileManager.default
     let directory = fileManager.temporaryDirectory
     let fileURL = directory.appendingPathComponent("upload.json")
 
-    let data = Data([1,1,1,1])
+    let data = Data([1, 1, 1, 1])
     try! data.write(to: fileURL, options: .atomic)
 
     var skylink: Skylink!
@@ -101,7 +101,7 @@ class Tests: XCTestCase {
     wait(for: [expectDownload], timeout: 60.0)
 
   }
-    
+
 }
 
 extension Data {

@@ -6,7 +6,7 @@ public struct RegistryEntry: Codable {
 
   let dataKey: String?
   let hashedDataKey: Data?
-  
+
   let data: Data
   let revision: Int
 
@@ -112,7 +112,7 @@ public struct Registry {
 
       let payload: RegistryPayload = RegistryPayload(
         publicKey: PublicKey(algorithm: "ed25519", key: user.publicKey),
-        datakey: opts.hashedDatakey ?? hashDataKey(dataKey).base64EncodedString(),
+        datakey: dataKeyIfRequired(opts, dataKey),
         revision: srv.entry.revision,
         data: srv.entry.data,
         signature: srv.signature.signature)
@@ -158,7 +158,7 @@ public struct Registry {
 
       components.queryItems = [
         URLQueryItem(name: "publickey", value: "ed25519:\(user.id)"),
-        URLQueryItem(name: "datakey", value: opts.hashedDatakey ?? dataKey),
+        URLQueryItem(name: "datakey", value: dataKeyIfRequired(opts, dataKey))
       ]
 
       let request: URLRequest = URLRequest(url: components.url!)
@@ -204,4 +204,8 @@ public struct Registry {
 
   }
 
+}
+
+private func dataKeyIfRequired(_ opts: RegistryOpts, _ dataKey: String) -> String {
+  opts.hashedDatakey ?? hashDataKey(dataKey).hexEncodedString()
 }

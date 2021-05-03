@@ -22,7 +22,7 @@ internal struct Upload {
         parameters: nil,
         fileKeyName: fileName ?? fileURL.lastPathComponent,
         fileURLs: [fileURL],
-        completionHandler: { data, response, error in
+        completionHandler: { data, _, error in
 
           guard let data = data else {
             if let error = error {
@@ -41,7 +41,7 @@ internal struct Upload {
             print(error)
           }
 
-      })
+        })
 
       task?.resume()
 

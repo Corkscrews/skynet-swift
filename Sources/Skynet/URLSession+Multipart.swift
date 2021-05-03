@@ -162,7 +162,7 @@ public func uploadMultipartTask(url: URL, parameters: [String: AnyObject]?, file
   /// - returns:            The boundary string that consists of "Boundary-" followed by a UUID string.
 
   private class func generateBoundaryString() -> String {
-    return "Boundary-\(NSUUID().uuidString)"
+    "Boundary-\(NSUUID().uuidString)"
   }
 
   /// Determine mime type on the basis of extension of a file.
@@ -182,7 +182,7 @@ public func uploadMultipartTask(url: URL, parameters: [String: AnyObject]?, file
         return mimetype as String
       }
     }
-    return "application/octet-stream";
+    return "application/octet-stream"
   }
 
 }
