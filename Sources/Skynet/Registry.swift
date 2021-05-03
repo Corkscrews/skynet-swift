@@ -5,12 +5,12 @@ import ed25519swift
 struct RegistryEntry: Codable {
 
   let dataKey: String?
-  let hashedDataKey: String?
+  let hashedDataKey: Data?
   
   let data: Data
   let revision: Int
 
-  init(dataKey: String? = nil, hashedDataKey: String? = nil, data: Data, revision: Int) {
+  init(dataKey: String? = nil, hashedDataKey: Data? = nil, data: Data, revision: Int) {
     self.dataKey = dataKey
     self.hashedDataKey = hashedDataKey
     self.data = data
@@ -26,9 +26,21 @@ struct RegistryEntry: Codable {
     withPadding(revision) + data
   }
 
-  //Stub
-  private func withPadding(_ revision: Int) -> Data {
-    return Data()
+  func hash() -> Data {
+
+    let hashedDataKey: Data
+    if let dataKey: String = self.dataKey {
+      hashedDataKey = hashDataKey(dataKey)
+    } else {
+      hashedDataKey = self.hashedDataKey ?? Data([])
+    }
+
+    let data = hashedDataKey
+      + withPadding(self.data.count)
+      + self.data
+      + withPadding(self.revision)
+
+    return Blake2b().hash(withDigestSize: 256, data: data)
   }
 
 }
@@ -44,6 +56,8 @@ public struct SignedRegistryEntry: Decodable {
     self.entry = RegistryEntry(dataKey: dataKey, hashedDataKey: nil, data: entryResponse.data, revision: entryResponse.revision)
     self.signature = Signature(signature: entryResponse.signature.signature, publicKey: user.publicKey)
   }
+
+
 
 }
 
@@ -190,17 +204,5 @@ public struct Registry {
     }
 
   }
-
-}
-
-private func hashDataKey(_ dataKey: String) -> Data {
-  let encoded = dataKey.data(using: String.Encoding.utf8)!
-  let padding: Data = Data(Padding.pkcs7.add(to: encoded.bytes, blockSize: AES.blockSize))
-  let list = padding + encoded
-  Blake2b().hash(withDigestSize: 256, data: list) //Totally wrong
-  return encoded
-}
-
-public withPadding(i: Int): Data {
 
 }

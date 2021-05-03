@@ -42,6 +42,7 @@
 		47808BB808628C2E371FF6E5CA58F5D0 /* Updatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE291EA095E58DAA037CC701C541116C /* Updatable.swift */; };
 		48BFFF8B26405456003DDD07 /* MySky.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BFFF8A26405456003DDD07 /* MySky.swift */; };
 		48BFFF9126405515003DDD07 /* SkyDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BFFF9026405515003DDD07 /* SkyDB.swift */; };
+		48BFFF9F264065A5003DDD07 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BFFF9E264065A5003DDD07 /* Util.swift */; };
 		496830AC001A0919794D96A9D91CADC0 /* UInt64+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930357C4F61C643015A605D49EEE13D2 /* UInt64+Extension.swift */; };
 		4AB2E5953C86C11B84BBC0822B1C0C12 /* Pods-Skynet_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 4088F6E784F80EE2464F787C1C58B67C /* Pods-Skynet_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4BF868D6EC762DA1E25695733B8E91F5 /* BlockCipher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A704FE4CB2DA19C439676587C9365A /* BlockCipher.swift */; };
@@ -67,7 +68,7 @@
 		6E89EE0A83D419EA1EF17F409199F46B /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69C8558DA1D49D677FC26DBA8E70556 /* Array+Extension.swift */; };
 		6E921730898E31B37F61DB53D0093FEC /* ed25519_fe.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF459B97EF48D86DDC35EC846DECF4D /* ed25519_fe.swift */; };
 		6EF03A3BAFDA8A4BDFF3265B98F9E421 /* CTR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BCBC80301F8597E1124A7373EC8F027 /* CTR.swift */; };
-		6F3195CAF5188E84B07483BDC3DFD2BF /* NSURLSession+Multipart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEE2CFF0F2E2B8F6493A3DE64936D5C /* NSURLSession+Multipart.swift */; };
+		6F3195CAF5188E84B07483BDC3DFD2BF /* URLSession+Multipart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEE2CFF0F2E2B8F6493A3DE64936D5C /* URLSession+Multipart.swift */; };
 		7D7DF06C873B648BC1571FB8138DDA48 /* ISO78164Padding.swift in Sources */ = {isa = PBXBuildFile; fileRef = C519942AFA34C72C93C66020CCD63FE1 /* ISO78164Padding.swift */; };
 		8447B4C9B50331AB5953B48626AC9526 /* Scrypt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6EABD6C4E02BBAFC37243119F3AE6F /* Scrypt.swift */; };
 		88088975B70CE537682C5DFF4AC2A99B /* MD5.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4CA57916631D6542997A6E5547AB5EA /* MD5.swift */; };
@@ -205,10 +206,11 @@
 		46DC0B18750844CD7A17EE78CD28FBC1 /* Data+Extension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Data+Extension.swift"; path = "Sources/CryptoSwift/Foundation/Data+Extension.swift"; sourceTree = "<group>"; };
 		48633CE7CD4C67A2F00ABB4CF1C9A01E /* PKCS7.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PKCS7.swift; path = Sources/CryptoSwift/PKCS/PKCS7.swift; sourceTree = "<group>"; };
 		48BFFF8A26405456003DDD07 /* MySky.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MySky.swift; path = Sources/Skynet/MySky.swift; sourceTree = "<group>"; };
-		48BFFF9026405515003DDD07 /* SkyDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkyDB.swift; sourceTree = "<group>"; };
+		48BFFF9026405515003DDD07 /* SkyDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SkyDB.swift; path = Sources/Skynet/SkyDB.swift; sourceTree = "<group>"; };
+		48BFFF9E264065A5003DDD07 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Util.swift; path = Sources/Skynet/Util.swift; sourceTree = "<group>"; };
 		4B658BB2CC41EB78164D50F5F735DF4E /* CipherModeWorker.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CipherModeWorker.swift; path = Sources/CryptoSwift/BlockMode/CipherModeWorker.swift; sourceTree = "<group>"; };
 		4B8CF81B8892B8456F10A8C94450AC67 /* Pods-Skynet_Tests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Skynet_Tests-frameworks.sh"; sourceTree = "<group>"; };
-		4CEE2CFF0F2E2B8F6493A3DE64936D5C /* NSURLSession+Multipart.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "NSURLSession+Multipart.swift"; path = "Sources/Skynet/NSURLSession+Multipart.swift"; sourceTree = "<group>"; };
+		4CEE2CFF0F2E2B8F6493A3DE64936D5C /* URLSession+Multipart.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "URLSession+Multipart.swift"; path = "Sources/Skynet/URLSession+Multipart.swift"; sourceTree = "<group>"; };
 		4D6EABD6C4E02BBAFC37243119F3AE6F /* Scrypt.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Scrypt.swift; path = Sources/CryptoSwift/Scrypt.swift; sourceTree = "<group>"; };
 		51F77550EC84D49B1E583214A6D68D25 /* String+FoundationExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "String+FoundationExtension.swift"; path = "Sources/CryptoSwift/Foundation/String+FoundationExtension.swift"; sourceTree = "<group>"; };
 		5760F67AA3B47D2821586ECD3F1BB077 /* CryptoSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CryptoSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -368,8 +370,9 @@
 		51319F0BC89B5860C6F6BE87E280FC65 /* Skynet */ = {
 			isa = PBXGroup;
 			children = (
+				48BFFF9E264065A5003DDD07 /* Util.swift */,
 				5A519345F4F0DA6851F1A491DBC5EA55 /* Download.swift */,
-				4CEE2CFF0F2E2B8F6493A3DE64936D5C /* NSURLSession+Multipart.swift */,
+				4CEE2CFF0F2E2B8F6493A3DE64936D5C /* URLSession+Multipart.swift */,
 				B2AF9D9B9DC5B271924831F2E00DB790 /* Registry.swift */,
 				1803B2CCF79A2D835D80DCCD23B4C9F2 /* Skynet.swift */,
 				1B97F73583FEA0147639A0DFFD2582C1 /* Upload.swift */,
@@ -912,13 +915,14 @@
 				F0947BA057E90DEC4F6D27692581AC01 /* blake2b.c in Sources */,
 				3FE3430EE6AA022E7450034B6212F187 /* Download.swift in Sources */,
 				C88F2AD8FF40B57B50F79BBBFC96DE1D /* NSObject+blake2b.m in Sources */,
-				6F3195CAF5188E84B07483BDC3DFD2BF /* NSURLSession+Multipart.swift in Sources */,
+				6F3195CAF5188E84B07483BDC3DFD2BF /* URLSession+Multipart.swift in Sources */,
 				948C72C2D603C1D3D4FEF27F304F6ABF /* Registry.swift in Sources */,
 				D2034A6F2E868C1EC92009656247D393 /* SkyFile.swift in Sources */,
 				6587F6A3D276B61293A84890C601A7A1 /* Skynet-dummy.m in Sources */,
 				F76B1D6EACDB928BD1244D721C55691E /* Skynet.swift in Sources */,
 				DE2D57D75C7A2E7A25A18A89903FE993 /* SkynetResponse.swift in Sources */,
 				BA1A37B9BE5B36702C69ED068E40A022 /* SkynetUser.swift in Sources */,
+				48BFFF9F264065A5003DDD07 /* Util.swift in Sources */,
 				E86FC302E684EFA34AE4417F608F3053 /* Upload.swift in Sources */,
 				48BFFF8B26405456003DDD07 /* MySky.swift in Sources */,
 			);
