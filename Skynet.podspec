@@ -31,7 +31,7 @@ Pod::Spec.new do |s|
   s.source_files = 'Sources/**/*.swift', 'Sources/**/Blake2b/*.{h,m,c}'
   s.swift_versions = ['5.2']
   s.ios.deployment_target = '12.1'
-  s.osx.deployment_target = '10.14'
+  s.osx.deployment_target = '10.12'
   
   # s.resource_bundles = {
   #   'Skynet' => ['Skynet/Assets/*.png']
