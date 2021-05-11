@@ -21,7 +21,7 @@ let package = Package(
     targets: [
         .target(
             name: "Skynet",
-            dependencies: ["CryptoSwift", "ed25519swift"]),
+            dependencies: ["CryptoSwift", "ed25519swift", "Blake2b"]),
         .target(
             name: "Blake2b"),
         .testTarget(

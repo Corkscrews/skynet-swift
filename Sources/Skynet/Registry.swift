@@ -1,6 +1,9 @@
 import Foundation
 import CryptoSwift
 import ed25519swift
+#if canImport(Blake2b)
+import Blake2b
+#endif
 
 public struct RegistryEntry: Codable {
 

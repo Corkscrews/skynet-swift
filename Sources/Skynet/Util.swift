@@ -6,6 +6,9 @@
 //
 
 import Foundation
+#if canImport(Blake2b)
+import Blake2b
+#endif
 
 internal func hashDataKey(_ dataKey: String) -> Data {
   hashRawDataKey(dataKey.data(using: String.Encoding.utf8)!)
