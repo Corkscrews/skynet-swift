@@ -60,6 +60,11 @@ public struct SignedRegistryEntry: Decodable {
     self.signature = Signature(signature: entryResponse.signature.signature, publicKey: user.publicKey)
   }
 
+  init(signature: Signature, entry: RegistryEntry) {
+    self.signature = signature
+    self.entry = entry
+  }
+
 }
 
 struct Signature: Decodable {
@@ -101,7 +106,7 @@ public struct Registry {
   private static let route: String = "/skynet/registry"
 
   public static func setEntry(
-    queue: DispatchQueue = .main,
+    _ queue: DispatchQueue = .main,
     user: SkynetUser,
     dataKey: String,
     srv: SignedRegistryEntry,
@@ -148,7 +153,7 @@ public struct Registry {
   }
 
   public static func getEntry(
-    queue: DispatchQueue = .main,
+    _ queue: DispatchQueue = .main,
     user: SkynetUser,
     dataKey: String,
     opts: RegistryOpts,

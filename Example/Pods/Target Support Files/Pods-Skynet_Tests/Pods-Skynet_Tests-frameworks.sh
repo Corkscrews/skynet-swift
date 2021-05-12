@@ -177,11 +177,13 @@ code_sign_if_enabled() {
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Skynet/Skynet.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/TweetNacl/TweetNacl.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ed25519swift/ed25519swift.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Skynet/Skynet.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/TweetNacl/TweetNacl.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ed25519swift/ed25519swift.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then

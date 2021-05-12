@@ -1,10 +1,12 @@
 PODS:
   - CryptoSwift (1.4.0)
-  - ed25519swift (1.2.5):
+  - ed25519swift (1.2.8):
     - CryptoSwift
-  - Skynet (0.1.0):
+  - Skynet (0.1.1):
     - CryptoSwift (~> 1.4.0)
-    - ed25519swift (~> 1.2.5)
+    - ed25519swift (~> 1.2.8)
+    - TweetNacl
+  - TweetNacl (1.0.2)
 
 DEPENDENCIES:
   - Skynet (from `../`)
@@ -13,6 +15,7 @@ SPEC REPOS:
   trunk:
     - CryptoSwift
     - ed25519swift
+    - TweetNacl
 
 EXTERNAL SOURCES:
   Skynet:
@@ -20,8 +23,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   CryptoSwift: 7cc902df1784de3b389a387756c7d710f197730c
-  ed25519swift: 1dde95cca5e1f375656e2fbccb06f9c568ef6498
-  Skynet: 2b240dfe5037fd1e6a0714efea25eaada8b72732
+  ed25519swift: 32845b4d73fdd3598d6334972a62f463314de730
+  Skynet: aa202134d426fbde47adb5418991e2a99d936717
+  TweetNacl: 3abf4d1d2082b0114e7a67410e300892448951e6
 
 PODFILE CHECKSUM: c218a68b11fbd229f39ed088795d3479aa029eff
 
