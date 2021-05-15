@@ -82,4 +82,8 @@ public struct Skynet {
     }
   }
 
+  public enum Error: Swift.Error {
+    case unknown
+  }
+
 }

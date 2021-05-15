@@ -101,7 +101,7 @@ final class Download: NSObject, URLSessionDataDelegate {
             return
           }
 
-          completion(.failure(NSError(domain: "Unknown error", code: 1))) // TODO: Replace with enum
+          completion(.failure(Skynet.Error.unknown)) // TODO: Replace with enum
           return
         }
 

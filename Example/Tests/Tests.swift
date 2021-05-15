@@ -115,6 +115,8 @@ class Tests: XCTestCase {
 
     let user: SkynetUser = SkynetUser.fromSeed(seed: "788dddf5232807611557a3dc0fa5f34012c2650526ba91d55411a2b04ba56164")
 
+    try! user.initialize()
+
     let dataKey: String = "testRegistry"
     let data: Data = skylink.data(using: .utf8)!
 
@@ -126,14 +128,38 @@ class Tests: XCTestCase {
 
     let expectedSetRegistry = XCTestExpectation(description: "Wait to create entry on registry")
 
-    Registry.setEntry(user: user, dataKey: dataKey, srv: srv, opts: RegistryOpts()) { result in
+    Registry.setEntry(user: user, dataKey: dataKey, srv: srv) { result in
 
-      print("result \(result)")
+      switch result {
+      case .success:
+        break
+      case .failure(let error):
+        XCTFail("Error while trying to set entry: \(error)")
+      }
       expectedSetRegistry.fulfill()
 
     }
 
     wait(for: [expectedSetRegistry], timeout: 60.0)
+
+    let expectedGetRegistry = XCTestExpectation(description: "Wait to get entry on registry")
+
+    Registry.getEntry(user: user, dataKey: dataKey) { (result: Result<SignedRegistryEntry, Swift.Error>) in
+
+      switch result {
+      case .success(let signedRegistryEntry):
+        print("signedRegistryEntry \(signedRegistryEntry)")
+
+        XCTAssertEqual(dataKey, signedRegistryEntry.entry.dataKey!)
+
+      case .failure(let error):
+        XCTFail("Error while trying to get entry: \(error)")
+      }
+      expectedGetRegistry.fulfill()
+
+    }
+
+    wait(for: [expectedGetRegistry], timeout: 60.0)
 
   }
 

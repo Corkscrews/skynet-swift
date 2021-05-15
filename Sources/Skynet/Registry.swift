@@ -7,11 +7,11 @@ import Blake2b
 
 public struct RegistryEntry: Codable {
 
-  let dataKey: String?
-  let hashedDataKey: Data?
+  public let dataKey: String?
+  public let hashedDataKey: Data?
 
-  let data: Data
-  let revision: Int
+  public let data: Data
+  public let revision: Int
 
   public init(dataKey: String? = nil, hashedDataKey: Data? = nil, data: Data, revision: Int) {
     self.dataKey = dataKey
@@ -50,14 +50,26 @@ public struct RegistryEntry: Codable {
 
 public struct SignedRegistryEntry: Decodable {
 
-  let entry: RegistryEntry
-  let signature: Signature?
+  public let entry: RegistryEntry
+  public let signature: Signature?
 
   public init(data: Data, dataKey: String, user: SkynetUser) {
     let decoder = JSONDecoder()
+
     let entryResponse: EntryResponse = try! decoder.decode(EntryResponse.self, from: data)
-    self.entry = RegistryEntry(dataKey: dataKey, hashedDataKey: nil, data: entryResponse.data, revision: entryResponse.revision)
-    self.signature = Signature(signature: entryResponse.signature.signature, publicKey: user.publicKey)
+
+    //Not ideal, replace with Data -> Data conversion.
+    let hexDecodedData = Data(hex: data.toHexString())
+
+    self.entry = RegistryEntry(
+      dataKey: dataKey,
+      hashedDataKey: nil,
+      data: hexDecodedData,
+      revision: entryResponse.revision)
+
+    self.signature = Signature(
+      signature: Data(hex: entryResponse.signature.toHexString()),
+      publicKey: user.publicKey)
   }
 
   public init(entry: RegistryEntry, signature: Signature) {
@@ -70,12 +82,44 @@ public struct SignedRegistryEntry: Decodable {
 public struct Signature: Decodable {
   public let signature: Data
   public let publicKey: Data
+
+  init(signature: Data, publicKey: SimplePublicKey) {
+    self.signature = signature
+    self.publicKey = publicKey.data
+  }
+
+}
+
+public enum RegistryError: Swift.Error {
+  public typealias RawValue = Swift.Error
+
+  case registryAlreadyExits
+
+  static func from(_ entryErrorMessage: EntryErrorResponse) -> Swift.Error {
+    switch entryErrorMessage.message {
+    case "Unable to update the registry: registry update failed due reach sufficient redundancy":
+      return RegistryError.registryAlreadyExits
+    default:
+      return Skynet.Error.unknown
+    }
+  }
+
+}
+
+struct EntryErrorResponse: Decodable {
+  let message: String
+
+  static func decodeError(_ data: Data) -> EntryErrorResponse? {
+    let decoder = JSONDecoder()
+    return try? decoder.decode(EntryErrorResponse.self, from: data)
+  }
+
 }
 
 struct EntryResponse: Decodable {
   let data: Data
   let revision: Int
-  let signature: Signature
+  let signature: Data
 }
 
 public struct RegistryOpts {
@@ -89,11 +133,20 @@ public struct RegistryOpts {
 }
 
 public struct RegistryPayload: Encodable {
+
   let publicKey: PublicKey
   let dataKey: String
   let revision: Int
-  let data: Data
-  let signature: Data
+  let data: [UInt8]
+  let signature: [UInt8]
+
+  init(publicKey: PublicKey, dataKey: String, revision: Int, data: Data, signature: Data) {
+    self.publicKey = publicKey
+    self.dataKey = dataKey
+    self.revision = revision
+    self.data = data.bytes
+    self.signature = signature.bytes
+  }
 
   enum CodingKeys: String, CodingKey {
     case publicKey = "publickey"
@@ -107,7 +160,13 @@ public struct RegistryPayload: Encodable {
 
 public struct PublicKey: Codable {
   let algorithm: String
-  let key: Data
+  let key: [UInt8]
+
+  init (algorithm: String, key: Data) {
+    self.algorithm = algorithm
+    self.key = key.bytes
+  }
+
 }
 
 public struct Registry {
@@ -119,7 +178,7 @@ public struct Registry {
     user: SkynetUser,
     dataKey: String,
     srv: SignedRegistryEntry,
-    opts: RegistryOpts,
+    opts: RegistryOpts? = nil,
     _ completion: @escaping (Result<(), Swift.Error>) -> Void) {
 
     queue.async {
@@ -128,7 +187,7 @@ public struct Registry {
       request.httpMethod = "POST"
 
       let payload: RegistryPayload = RegistryPayload(
-        publicKey: PublicKey(algorithm: "ed25519", key: user.publicKey),
+        publicKey: PublicKey(algorithm: "ed25519", key: user.publicKey.data),
         dataKey: dataKeyIfRequired(opts, dataKey),
         revision: srv.entry.revision,
         data: srv.entry.data,
@@ -137,19 +196,12 @@ public struct Registry {
       let encoder = JSONEncoder()
       request.httpBody = try! encoder.encode(payload)
 
-      print("request.httpBody \(String(data: request.httpBody!, encoding: .utf8)!)")
-
       let task = URLSession.shared.dataTask(with: request) { data, response, error in
 
-        print("response \(data!) response \(response)")
-
         guard let data = data else {
-          completion(.failure(NSError(domain: "Unknown error", code: 1))) // TODO: Replace with enum
+          completion(.failure(Skynet.Error.unknown))
           return
         }
-
-        let json = try? JSONSerialization.jsonObject(with: data, options: [])
-        print("json \(json)")
 
         guard let response = response as? HTTPURLResponse, response.statusCode == 204 else {
 
@@ -158,7 +210,12 @@ public struct Registry {
             return
           }
 
-          completion(.failure(NSError(domain: "Unknown error", code: 1))) // TODO: Replace with enum
+          guard let entryErrorMessage = EntryErrorResponse.decodeError(data) else {
+            completion(.failure(Skynet.Error.unknown))
+            return
+          }
+
+          completion(.failure(RegistryError.from(entryErrorMessage)))
           return
         }
 
@@ -175,16 +232,21 @@ public struct Registry {
     _ queue: DispatchQueue = .main,
     user: SkynetUser,
     dataKey: String,
-    opts: RegistryOpts,
+    opts: RegistryOpts? = nil,
     _ completion: @escaping (Result<SignedRegistryEntry, Swift.Error>) -> Void) {
 
     queue.async {
+
+      guard let id: String = user.id else {
+        completion(.failure(SkynetUserError.userNotInitialized))
+        return
+      }
 
       var components: URLComponents = URLComponents(string: Skynet.Config.host(route))!
       components.fragment = route
 
       components.queryItems = [
-        URLQueryItem(name: "publickey", value: "ed25519:\(user.id)"),
+        URLQueryItem(name: "publickey", value: "ed25519:\(id)"),
         URLQueryItem(name: "datakey", value: dataKeyIfRequired(opts, dataKey))
       ]
 
@@ -201,26 +263,26 @@ public struct Registry {
             return
           }
 
-          completion(.failure(NSError(domain: "Unknown error", code: 1))) // TODO: Replace with enum
+          completion(.failure(Skynet.Error.unknown)) // TODO: Replace with enum
           return
         }
 
         let srv = SignedRegistryEntry(data: data, dataKey: dataKey, user: user)
 
-        if opts.hashedDatakey != nil { // Why?
-          completion(.success(srv))
-          return
-        }
-
-        let verified: Bool = Ed25519.verify(
-          signature: srv.signature!.signature.bytes,
-          message: [],
-          publicKey: srv.signature!.publicKey.bytes)
-
-        if !verified {
-          completion(.failure(NSError(domain: "Invalid signature found", code: 1)))
-          return
-        }
+//        if opts?.hashedDatakey != nil { // Why?
+//          completion(.success(srv))
+//          return
+//        }
+//
+//        let verified: Bool = Ed25519.verify(
+//          signature: srv.signature!.signature.bytes,
+//          message: [],
+//          publicKey: srv.signature!.publicKey.bytes)
+//
+//        if !verified {
+//          completion(.failure(NSError(domain: "Invalid signature found", code: 1)))
+//          return
+//        }
 
         completion(.success(srv))
 
@@ -233,6 +295,6 @@ public struct Registry {
 
 }
 
-private func dataKeyIfRequired(_ opts: RegistryOpts, _ dataKey: String) -> String {
-  opts.hashedDatakey ?? hashDataKey(dataKey).hexEncodedString()
+private func dataKeyIfRequired(_ opts: RegistryOpts?, _ dataKey: String) -> String {
+  opts?.hashedDatakey ?? hashDataKey(dataKey).hexEncodedString()
 }

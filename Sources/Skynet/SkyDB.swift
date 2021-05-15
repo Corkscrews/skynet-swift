@@ -26,19 +26,29 @@ public class SkyDB {
 
     queue.async {
 
+      let opts: RegistryOpts = RegistryOpts(
+        hashedDatakey: nil,
+        timeoutInSeconds: opts.timeoutInSeconds)
+
       Registry.getEntry(
         queue,
         user: user,
         dataKey: dataKey,
-        opts: RegistryOpts(hashedDatakey: nil, timeoutInSeconds: opts.timeoutInSeconds)
+        opts: opts
       ) { (result: Result<SignedRegistryEntry, Swift.Error>) in
 
         switch result {
         case .success(let entry):
 
-          let skylink: Skylink = String(bytes: entry.entry.data, encoding: .utf16)!
+          let skylink: Skylink = String(
+            bytes: entry.entry.data,
+            encoding: .utf16)!
 
-          Download.download(queue, skylink, saveTo) { (result: Result<SkyFile, Swift.Error>) in
+          Download.download(
+            queue,
+            skylink,
+            saveTo
+          ) { (result: Result<SkyFile, Swift.Error>) in
 
             switch result {
             case .success(let skyfile):
@@ -69,12 +79,20 @@ public class SkyDB {
 
     queue.async {
 
-      Upload.upload(queue, skyFile.fileURL) { result in
+      Upload.upload(
+        queue,
+        skyFile.fileURL
+      ) { (result: Result<SkynetResponse, Swift.Error>) in
 
         switch result {
         case .success(let response):
 
-          Registry.getEntry(queue, user: user, dataKey: dataKey, opts: opts) { registryResult in
+          Registry.getEntry(
+            queue,
+            user: user,
+            dataKey: dataKey,
+            opts: opts
+          ) { (registryResult: Result<SignedRegistryEntry, Swift.Error>) in
 
             var revision: Int = 0
 
@@ -94,24 +112,23 @@ public class SkyDB {
             let rv = RegistryEntry(
               dataKey: dataKey,
               hashedDataKey: hashedDataKey,
-              data: response.skylink.data(using: String.Encoding.utf8)!,
+              data: response.skylink.data(
+                using: String.Encoding.utf8)!,
               revision: revision)
 
             let sig = user.sign(rv.hash())
 
-            let srv = SignedRegistryEntry(entry: rv, signature: sig)
+            let srv = SignedRegistryEntry(
+              entry: rv,
+              signature: sig)
 
-            Registry.setEntry(queue, user: user, dataKey: dataKey, srv: srv, opts: opts) { setRegistryResult in
-
-              switch setRegistryResult {
-              case .success():
-                completion(.success(()))
-
-              case .failure(let error):
-                completion(.failure(error))
-              }
-
-            }
+            Registry.setEntry(
+              queue,
+              user: user,
+              dataKey: dataKey,
+              srv: srv,
+              opts: opts,
+              completion)
 
           }
 

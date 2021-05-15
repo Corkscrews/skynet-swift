@@ -10,18 +10,39 @@ import ed25519swift
 import CryptoSwift
 import TweetNacl
 
+enum SkynetUserError: Error {
+  case invalidSeedLength
+  case userNotInitialized
+}
+
+public enum KeyPairType {
+  case ed25519
+}
+
+public struct SimplePublicKey {
+  let data: Data
+  let type: KeyPairType
+}
+
 public class SkynetUser {
 
-  public var id: String
-  public var publicKey: Data
-  public var keyPair: (publicKey: [UInt8], secretKey: [UInt8])
-  public var seed: Data = Data()
-  public var sk: Data = Data()
+  public var id: String!
+  public var publicKey: SimplePublicKey!
+  public var keyPair: (publicKey: [UInt8], secretKey: [UInt8])!
+  public var seed: Data!
+  public var sk: Data!
   public var pk: Data?
 
-  public func fromId(userId: String) {
-    id = userId
-    publicKey = dataWithHexString(hex: userId)
+  init() { }
+
+  public static func fromId(userId: String) -> SkynetUser {
+    let fixedUserId: String = userId.starts(with: "ed25519-")
+      ? String(userId.suffix(8))
+      : userId
+    let user: SkynetUser = SkynetUser()
+    user.id = fixedUserId
+    user.publicKey = SimplePublicKey(data: dataWithHexString(hex: userId), type: KeyPairType.ed25519)
+    return user
   }
 
   public static func fromSeed(seed: String) -> SkynetUser {
@@ -29,7 +50,7 @@ public class SkynetUser {
   }
 
   public static func fromSeed(_ data: Data) -> SkynetUser {
-    let user = SkynetUser()
+    let user: SkynetUser = SkynetUser()
     user.seed = data
     let keyPair = try! NaclSign.KeyPair.keyPair(fromSeed: user.seed)
     user.sk = keyPair.secretKey
@@ -37,10 +58,14 @@ public class SkynetUser {
     return user
   }
 
-  public init() {
-    keyPair = Ed25519.generateKeyPair()
-    publicKey = Data(Ed25519.calcPublicKey(secretKey: keyPair.secretKey))
-    id = publicKey.hexEncodedString()
+  public func initialize() throws {
+    if seed.count != 32 {
+      throw SkynetUserError.invalidSeedLength
+    }
+    let publicKey: [UInt8] = Ed25519.calcPublicKey(secretKey: seed.bytes)
+    self.keyPair = (publicKey, seed.bytes)
+    self.publicKey = SimplePublicKey(data: Data(publicKey), type: KeyPairType.ed25519)
+    self.id = self.publicKey.data.hexEncodedString()
   }
 
   static func skyIdSeedToEd25519Seed(seedStringInBase64: String) -> Data {
@@ -56,7 +81,9 @@ public class SkynetUser {
 
   public func sign(_ message: Data) -> Signature {
     let signature = Data(Ed25519.sign(message: message.bytes, secretKey: keyPair.secretKey))
-    return Signature(signature: signature, publicKey: Data(keyPair.publicKey))
+    return Signature(
+      signature: signature,
+      publicKey: SimplePublicKey(data: Data(keyPair.publicKey), type: KeyPairType.ed25519))
   }
 
   func symEncrypt(key: Data, message: Data) -> Data {
