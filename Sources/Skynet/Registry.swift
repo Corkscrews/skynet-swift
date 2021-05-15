@@ -51,25 +51,25 @@ public struct RegistryEntry: Codable {
 public struct SignedRegistryEntry: Decodable {
 
   let entry: RegistryEntry
-  let signature: Signature
+  let signature: Signature?
 
-  init(data: Data, dataKey: String, user: SkynetUser) {
+  public init(data: Data, dataKey: String, user: SkynetUser) {
     let decoder = JSONDecoder()
     let entryResponse: EntryResponse = try! decoder.decode(EntryResponse.self, from: data)
     self.entry = RegistryEntry(dataKey: dataKey, hashedDataKey: nil, data: entryResponse.data, revision: entryResponse.revision)
     self.signature = Signature(signature: entryResponse.signature.signature, publicKey: user.publicKey)
   }
 
-  init(signature: Signature, entry: RegistryEntry) {
-    self.signature = signature
+  public init(entry: RegistryEntry, signature: Signature) {
     self.entry = entry
+    self.signature = signature
   }
 
 }
 
-struct Signature: Decodable {
-  let signature: Data
-  let publicKey: Data
+public struct Signature: Decodable {
+  public let signature: Data
+  public let publicKey: Data
 }
 
 struct EntryResponse: Decodable {
@@ -82,7 +82,7 @@ public struct RegistryOpts {
   let hashedDatakey: String?
   let timeoutInSeconds: Int
 
-  init(hashedDatakey: String?, timeoutInSeconds: Int = 10) {
+  public init(hashedDatakey: String? = nil, timeoutInSeconds: Int = 10) {
     self.hashedDatakey = hashedDatakey
     self.timeoutInSeconds = timeoutInSeconds
   }
@@ -90,10 +90,19 @@ public struct RegistryOpts {
 
 public struct RegistryPayload: Encodable {
   let publicKey: PublicKey
-  let datakey: String
+  let dataKey: String
   let revision: Int
   let data: Data
   let signature: Data
+
+  enum CodingKeys: String, CodingKey {
+    case publicKey = "publickey"
+    case dataKey = "datakey"
+    case revision
+    case data
+    case signature
+  }
+
 }
 
 public struct PublicKey: Codable {
@@ -120,19 +129,29 @@ public struct Registry {
 
       let payload: RegistryPayload = RegistryPayload(
         publicKey: PublicKey(algorithm: "ed25519", key: user.publicKey),
-        datakey: dataKeyIfRequired(opts, dataKey),
+        dataKey: dataKeyIfRequired(opts, dataKey),
         revision: srv.entry.revision,
         data: srv.entry.data,
-        signature: srv.signature.signature)
+        signature: srv.signature!.signature)
 
       let encoder = JSONEncoder()
       request.httpBody = try! encoder.encode(payload)
 
+      print("request.httpBody \(String(data: request.httpBody!, encoding: .utf8)!)")
+
       let task = URLSession.shared.dataTask(with: request) { data, response, error in
 
-        guard let _ = data,
-          let response = response as? HTTPURLResponse,
-          response.statusCode == 204 else {
+        print("response \(data!) response \(response)")
+
+        guard let data = data else {
+          completion(.failure(NSError(domain: "Unknown error", code: 1))) // TODO: Replace with enum
+          return
+        }
+
+        let json = try? JSONSerialization.jsonObject(with: data, options: [])
+        print("json \(json)")
+
+        guard let response = response as? HTTPURLResponse, response.statusCode == 204 else {
 
           if let error = error {
             completion(.failure(error))
@@ -194,9 +213,9 @@ public struct Registry {
         }
 
         let verified: Bool = Ed25519.verify(
-          signature: srv.signature.signature.bytes,
+          signature: srv.signature!.signature.bytes,
           message: [],
-          publicKey: srv.signature.publicKey.bytes)
+          publicKey: srv.signature!.publicKey.bytes)
 
         if !verified {
           completion(.failure(NSError(domain: "Invalid signature found", code: 1)))

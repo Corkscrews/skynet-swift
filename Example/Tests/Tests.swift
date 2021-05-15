@@ -49,8 +49,92 @@ class Tests: XCTestCase {
     XCTAssertEqual(hex, "96e38063cdd09bdbc55e8944a70fdb06508f9350d6f4c704f94b5f80d31b6cec")
   }
 
-  func testSkynetUser() {
-    // Where is SkynetUser?
+  private func uploadRandomFile() -> Skylink {
+
+    let dispatchQueue = DispatchQueue(label: "uploadRandomFileDispatchQueue", qos: .userInitiated)
+
+    let fileManager = FileManager.default
+    let directory = fileManager.temporaryDirectory
+    let fileURL = directory.appendingPathComponent("upload.json")
+
+    let data: Data = randomData(100000)
+    try! data.write(to: fileURL, options: .atomic)
+
+    var skylink: Skylink!
+
+    let expectUpload = XCTestExpectation(description: "Wait the file to upload")
+
+    Skynet.upload(queue: dispatchQueue, fileURL: fileURL) { (result: Result<SkynetResponse, Swift.Error>) in
+      switch result {
+      case .success(let response):
+        XCTAssertFalse(response.skylink.isEmpty)
+        XCTAssertFalse(response.merkleroot.isEmpty)
+        skylink = response.skylink
+      case .failure(let error):
+        XCTFail("Upload to Skynet should not fail. Error: \(error)")
+      }
+      expectUpload.fulfill()
+    }
+
+    wait(for: [expectUpload], timeout: 600.0) // wow
+
+    return skylink
+  }
+
+  func testSkyDB() {
+
+    let fileManager = FileManager.default
+    let directory = fileManager.temporaryDirectory
+    let fileURL = directory.appendingPathComponent("upload.json")
+
+    let data: Data = randomData(100000)
+    try! data.write(to: fileURL, options: .atomic)
+
+    let dispatchQueue = DispatchQueue(label: "TestSkyDBDispatchQueue", qos: .userInitiated)
+
+    let user: SkynetUser = SkynetUser.fromSeed(seed: "788dddf5232807611557a3dc0fa5f34012c2650526ba91d55411a2b04ba56164")
+
+    let dataKey: String = "testRegistry"
+
+    let skyfile = SkyFile(fileURL: fileURL, fileName: "upload.json", type: "application/json")
+
+    let expectedSetFile = XCTestExpectation(description: "Wait to create entry on registry using SkyDB")
+
+    SkyDB.setFile(queue: dispatchQueue, user: user, dataKey: dataKey, skyFile: skyfile) { (result) in
+      print(result)
+      expectedSetFile.fulfill()
+    }
+
+    wait(for: [expectedSetFile], timeout: 60.0)
+
+  }
+
+  func testRegistry() {
+
+    let skylink: Skylink = uploadRandomFile()
+
+    let user: SkynetUser = SkynetUser.fromSeed(seed: "788dddf5232807611557a3dc0fa5f34012c2650526ba91d55411a2b04ba56164")
+
+    let dataKey: String = "testRegistry"
+    let data: Data = skylink.data(using: .utf8)!
+
+    let rv: RegistryEntry = RegistryEntry(dataKey: dataKey, data: data, revision: 0)
+
+    let signature = user.sign(rv.hash())
+
+    let srv = SignedRegistryEntry(entry: rv, signature: signature)
+
+    let expectedSetRegistry = XCTestExpectation(description: "Wait to create entry on registry")
+
+    Registry.setEntry(user: user, dataKey: dataKey, srv: srv, opts: RegistryOpts()) { result in
+
+      print("result \(result)")
+      expectedSetRegistry.fulfill()
+
+    }
+
+    wait(for: [expectedSetRegistry], timeout: 60.0)
+
   }
 
   func testUpdateAndDownload() {

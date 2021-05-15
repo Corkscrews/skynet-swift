@@ -12,26 +12,32 @@ import TweetNacl
 
 public class SkynetUser {
 
-  var id: String
-  var publicKey: Data
-  var keyPair: (publicKey: [UInt8], secretKey: [UInt8])
-  var seed: Data = Data()
-  var sk: Data = Data()
-  var pk: Data?
+  public var id: String
+  public var publicKey: Data
+  public var keyPair: (publicKey: [UInt8], secretKey: [UInt8])
+  public var seed: Data = Data()
+  public var sk: Data = Data()
+  public var pk: Data?
 
-  func fromId(userId: String) {
+  public func fromId(userId: String) {
     id = userId
     publicKey = dataWithHexString(hex: userId)
   }
 
-  func fromSeed(_ seed: Data) {
-    self.seed = seed
-    let keyPair = try! NaclSign.KeyPair.keyPair(fromSeed: seed)
-    sk = keyPair.secretKey
-    pk = keyPair.publicKey
+  public static func fromSeed(seed: String) -> SkynetUser {
+    fromSeed(dataWithHexString(hex: seed))
   }
 
-  init() {
+  public static func fromSeed(_ data: Data) -> SkynetUser {
+    let user = SkynetUser()
+    user.seed = data
+    let keyPair = try! NaclSign.KeyPair.keyPair(fromSeed: user.seed)
+    user.sk = keyPair.secretKey
+    user.pk = keyPair.publicKey
+    return user
+  }
+
+  public init() {
     keyPair = Ed25519.generateKeyPair()
     publicKey = Data(Ed25519.calcPublicKey(secretKey: keyPair.secretKey))
     id = publicKey.hexEncodedString()
@@ -48,7 +54,7 @@ public class SkynetUser {
     return Data(bytes)
   }
 
-  func sign(_ message: Data) -> Signature {
+  public func sign(_ message: Data) -> Signature {
     let signature = Data(Ed25519.sign(message: message.bytes, secretKey: keyPair.secretKey))
     return Signature(signature: signature, publicKey: Data(keyPair.publicKey))
   }

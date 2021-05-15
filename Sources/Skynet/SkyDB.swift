@@ -64,7 +64,7 @@ public class SkyDB {
     user: SkynetUser,
     dataKey: String,
     skyFile: SkyFile,
-    opts: RegistryOpts,
+    opts: RegistryOpts = RegistryOpts(),
     _ completion: @escaping (Result<(), Swift.Error>) -> Void) {
 
     queue.async {
@@ -99,7 +99,7 @@ public class SkyDB {
 
             let sig = user.sign(rv.hash())
 
-            let srv = SignedRegistryEntry(signature: sig, entry: rv)
+            let srv = SignedRegistryEntry(entry: rv, signature: sig)
 
             Registry.setEntry(queue, user: user, dataKey: dataKey, srv: srv, opts: opts) { setRegistryResult in
 
