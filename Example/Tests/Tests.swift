@@ -11,6 +11,17 @@ class Tests: XCTestCase {
     super.tearDown()
   }
 
+  func testDecodeHex() {
+    let string: String = "testDecodeHex"
+    let data: Data = string.data(using: String.Encoding.utf8)!
+    let dataEncodedHex: String = data.hexEncodedString()
+    let dataEncodedHexData: Data = dataEncodedHex.data(using: String.Encoding.utf8)!
+    let dataDecodedHex: Data = dataEncodedHexData.decodeHex()
+    let stringDecoded = String(decoding: dataDecodedHex, as: UTF8.self)
+    XCTAssertEqual(data, dataDecodedHex)
+    XCTAssertEqual(string, stringDecoded)
+  }
+
   func testWithPadding() {
     let integer = 123
     let result = withPadding(integer)
@@ -100,7 +111,12 @@ class Tests: XCTestCase {
 
     let expectedSetFile = XCTestExpectation(description: "Wait to create entry on registry using SkyDB")
 
-    SkyDB.setFile(queue: dispatchQueue, user: user, dataKey: dataKey, skyFile: skyfile) { (result) in
+    SkyDB.setFile(
+      queue: dispatchQueue,
+      user: user,
+      dataKey: dataKey,
+      skyFile: skyfile
+    ) { (result: Result<(), Swift.Error>) in
       print(result)
       expectedSetFile.fulfill()
     }
@@ -117,7 +133,7 @@ class Tests: XCTestCase {
 
     try! user.initialize()
 
-    let dataKey: String = "testRegistry"
+    let dataKey: String = randomString(count: 64)
     let data: Data = skylink.data(using: .utf8)!
 
     let rv: RegistryEntry = RegistryEntry(dataKey: dataKey, data: data, revision: 0)
@@ -151,6 +167,7 @@ class Tests: XCTestCase {
         print("signedRegistryEntry \(signedRegistryEntry)")
 
         XCTAssertEqual(dataKey, signedRegistryEntry.entry.dataKey!)
+        XCTAssertEqual(data, signedRegistryEntry.entry.data)
 
       case .failure(let error):
         XCTFail("Error while trying to get entry: \(error)")
@@ -257,6 +274,11 @@ class Tests: XCTestCase {
     print("Download of file as stream completed")
 
 
+  }
+
+  func randomString(count: Int) -> String {
+    let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    return String((0..<count).map{ _ in letters.randomElement()! })
   }
 
   public func randomData(_ length: Int) -> Data {

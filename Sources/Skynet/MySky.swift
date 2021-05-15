@@ -1,16 +1,16 @@
+////
+////  MySky.swift
+////  Skynet
+////
+////  Created by Pedro Paulo de Amorim on 03/05/2021.
+////
 //
-//  MySky.swift
-//  Skynet
+//import Foundation
 //
-//  Created by Pedro Paulo de Amorim on 03/05/2021.
+//public struct MySky {
 //
-
-import Foundation
-
-public struct MySky {
-
-  public func load(_ completion: @escaping (Result<(), Swift.Error>) -> Void) {
-
-  }
-
-}
+//  public func load(_ completion: @escaping (Result<(), Swift.Error>) -> Void) {
+//
+//  }
+//
+//}

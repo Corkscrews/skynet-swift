@@ -57,18 +57,18 @@ public struct SignedRegistryEntry: Decodable {
     let decoder = JSONDecoder()
 
     let entryResponse: EntryResponse = try! decoder.decode(EntryResponse.self, from: data)
-
-    //Not ideal, replace with Data -> Data conversion.
-    let hexDecodedData = Data(hex: data.toHexString())
+    print("entryResponse \(entryResponse)")
 
     self.entry = RegistryEntry(
       dataKey: dataKey,
       hashedDataKey: nil,
-      data: hexDecodedData,
+      data: Data(),
+//      data: entryResponse.data.decodeHex(),
       revision: entryResponse.revision)
 
     self.signature = Signature(
-      signature: Data(hex: entryResponse.signature.toHexString()),
+      signature: Data(),
+//      signature: entryResponse.signature.decodeHex(),
       publicKey: user.publicKey)
   }
 
@@ -117,9 +117,9 @@ struct EntryErrorResponse: Decodable {
 }
 
 struct EntryResponse: Decodable {
-  let data: Data
+  let data: [UInt8]
   let revision: Int
-  let signature: Data
+  let signature: [UInt8]
 }
 
 public struct RegistryOpts {
@@ -297,4 +297,11 @@ public struct Registry {
 
 private func dataKeyIfRequired(_ opts: RegistryOpts?, _ dataKey: String) -> String {
   opts?.hashedDatakey ?? hashDataKey(dataKey).hexEncodedString()
+}
+
+public extension Data {
+  func decodeHex() -> Data {
+    let hex: String = String(data: self, encoding: .utf8)!
+    return dataWithHexString(hex: hex)
+  }
 }
