@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Skynet'
-  s.version          = '0.1.2'
+  s.version          = '0.1.3'
   s.summary          = 'Skynet SDK for iOS and macOS'
 
   s.description      = <<-DESC
