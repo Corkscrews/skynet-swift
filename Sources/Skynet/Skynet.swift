@@ -83,7 +83,8 @@ public struct Skynet {
   }
 
   public enum Error: Swift.Error {
-    case unknown
+    case unknown(Swift.Error?)
+    case invalidURL(String)
   }
 
 }

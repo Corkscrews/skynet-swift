@@ -33,8 +33,6 @@ public class SkynetUser {
   public var sk: Data!
   public var pk: Data?
 
-  init() { }
-
   public static func fromId(userId: String) -> SkynetUser {
     let fixedUserId: String = userId.starts(with: "ed25519-")
       ? String(userId.suffix(8))
@@ -66,6 +64,16 @@ public class SkynetUser {
     self.keyPair = (publicKey, seed.bytes)
     self.publicKey = SimplePublicKey(data: Data(publicKey), type: KeyPairType.ed25519)
     self.id = self.publicKey.data.hexEncodedString()
+  }
+
+  public func validate() -> Swift.Error? {
+    if seed.count != 32 {
+      return SkynetUserError.invalidSeedLength
+    }
+    if keyPair == nil || publicKey == nil || id == nil {
+      return SkynetUserError.userNotInitialized
+    }
+    return nil
   }
 
   static func skyIdSeedToEd25519Seed(seedStringInBase64: String) -> Data {

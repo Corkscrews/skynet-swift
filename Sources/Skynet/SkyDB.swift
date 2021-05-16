@@ -21,20 +21,25 @@ public class SkyDB {
     user: SkynetUser,
     dataKey: String,
     saveTo: URL,
-    opts: SkyDBOpts,
+    opts: SkyDBOpts? = nil,
     _ completion: @escaping (Result<SkyFile, Swift.Error>) -> Void) {
 
     queue.async {
 
-      let opts: RegistryOpts = RegistryOpts(
-        hashedDatakey: nil,
-        timeoutInSeconds: opts.timeoutInSeconds)
+      let registryOpts: RegistryOpts?
+      if let opts = opts {
+        registryOpts = RegistryOpts(
+          hashedDatakey: nil,
+          timeoutInSeconds: opts.timeoutInSeconds)
+      } else {
+        registryOpts = nil
+      }
 
       Registry.getEntry(
         queue,
         user: user,
         dataKey: dataKey,
-        opts: opts
+        opts: registryOpts
       ) { (result: Result<SignedRegistryEntry, Swift.Error>) in
 
         switch result {
@@ -42,7 +47,7 @@ public class SkyDB {
 
           let skylink: Skylink = String(
             bytes: entry.entry.data,
-            encoding: .utf16)!
+            encoding: .utf8)!
 
           Download.download(
             queue,
@@ -79,6 +84,11 @@ public class SkyDB {
 
     queue.async {
 
+      if let error: Swift.Error = user.validate() {
+        completion(.failure(error))
+        return
+      }
+
       Upload.upload(
         queue,
         skyFile.fileURL
@@ -100,8 +110,8 @@ public class SkyDB {
             case .success(let signedRegistryEntry):
               revision = signedRegistryEntry.entry.revision + 1
             case .failure(let error):
-              print(error)
-              revision += 1
+//              print(error)
+              break
             }
 
             var hashedDataKey: Data?

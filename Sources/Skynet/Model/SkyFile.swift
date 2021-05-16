@@ -1,6 +1,6 @@
 import Foundation
 
-public struct SkyFile: Codable {
+public struct SkyFile: Codable, Equatable {
 
   public let fileURL: URL
   public let fileName: String

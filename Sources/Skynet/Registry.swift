@@ -57,18 +57,15 @@ public struct SignedRegistryEntry: Decodable {
     let decoder = JSONDecoder()
 
     let entryResponse: EntryResponse = try! decoder.decode(EntryResponse.self, from: data)
-    print("entryResponse \(entryResponse)")
 
     self.entry = RegistryEntry(
       dataKey: dataKey,
       hashedDataKey: nil,
-      data: Data(),
-//      data: entryResponse.data.decodeHex(),
+      data: dataWithHexString(hex: entryResponse.data),
       revision: entryResponse.revision)
 
     self.signature = Signature(
-      signature: Data(),
-//      signature: entryResponse.signature.decodeHex(),
+      signature: dataWithHexString(hex: entryResponse.signature),
       publicKey: user.publicKey)
   }
 
@@ -100,7 +97,7 @@ public enum RegistryError: Swift.Error {
     case "Unable to update the registry: registry update failed due reach sufficient redundancy":
       return RegistryError.registryAlreadyExits
     default:
-      return Skynet.Error.unknown
+      return Skynet.Error.unknown(nil)
     }
   }
 
@@ -117,9 +114,9 @@ struct EntryErrorResponse: Decodable {
 }
 
 struct EntryResponse: Decodable {
-  let data: [UInt8]
+  let data: String
   let revision: Int
-  let signature: [UInt8]
+  let signature: String
 }
 
 public struct RegistryOpts {
@@ -183,7 +180,19 @@ public struct Registry {
 
     queue.async {
 
-      var request: URLRequest = URLRequest(url: URL(string: Skynet.Config.host(route))!)
+      if let error: Swift.Error = user.validate() {
+        completion(.failure(error))
+        return
+      }
+
+      let urlString: String = Skynet.Config.host(route)
+
+      guard let url: URL = URL(string: urlString) else {
+        completion(.failure(Skynet.Error.invalidURL(urlString)))
+        return
+      }
+
+      var request: URLRequest = URLRequest(url: url)
       request.httpMethod = "POST"
 
       let payload: RegistryPayload = RegistryPayload(
@@ -199,7 +208,7 @@ public struct Registry {
       let task = URLSession.shared.dataTask(with: request) { data, response, error in
 
         guard let data = data else {
-          completion(.failure(Skynet.Error.unknown))
+          completion(.failure(Skynet.Error.unknown(nil)))
           return
         }
 
@@ -211,7 +220,7 @@ public struct Registry {
           }
 
           guard let entryErrorMessage = EntryErrorResponse.decodeError(data) else {
-            completion(.failure(Skynet.Error.unknown))
+            completion(.failure(Skynet.Error.unknown(nil)))
             return
           }
 
@@ -237,12 +246,23 @@ public struct Registry {
 
     queue.async {
 
+      if let error: Swift.Error = user.validate() {
+        completion(.failure(error))
+        return
+      }
+
       guard let id: String = user.id else {
         completion(.failure(SkynetUserError.userNotInitialized))
         return
       }
 
-      var components: URLComponents = URLComponents(string: Skynet.Config.host(route))!
+      let urlString: String = Skynet.Config.host(route)
+
+      guard var components: URLComponents = URLComponents(string: Skynet.Config.host(route)) else {
+        completion(.failure(Skynet.Error.invalidURL(urlString)))
+        return
+      }
+
       components.fragment = route
 
       components.queryItems = [
@@ -263,7 +283,7 @@ public struct Registry {
             return
           }
 
-          completion(.failure(Skynet.Error.unknown)) // TODO: Replace with enum
+          completion(.failure(Skynet.Error.unknown(nil))) // TODO: Replace with enum
           return
         }
 
@@ -297,11 +317,4 @@ public struct Registry {
 
 private func dataKeyIfRequired(_ opts: RegistryOpts?, _ dataKey: String) -> String {
   opts?.hashedDatakey ?? hashDataKey(dataKey).hexEncodedString()
-}
-
-public extension Data {
-  func decodeHex() -> Data {
-    let hex: String = String(data: self, encoding: .utf8)!
-    return dataWithHexString(hex: hex)
-  }
 }

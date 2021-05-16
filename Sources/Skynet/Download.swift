@@ -89,7 +89,13 @@ final class Download: NSObject, URLSessionDataDelegate {
 
     queue.async {
 
-      let urlToDownload = URL(string: "\(Skynet.Config.host)/\(skylink)")!
+      let urlString: String = "\(Skynet.Config.host)/\(skylink)"
+
+      guard let urlToDownload: URL = URL(string: urlString) else {
+        completion(.failure(Skynet.Error.invalidURL(urlString)))
+        return
+      }
+
       let task = URLSession.shared.downloadTask(with: urlToDownload) { (url, response, error) in
 
         guard let fileURL: URL = url,
@@ -101,7 +107,7 @@ final class Download: NSObject, URLSessionDataDelegate {
             return
           }
 
-          completion(.failure(Skynet.Error.unknown)) // TODO: Replace with enum
+          completion(.failure(Skynet.Error.unknown(nil)))
           return
         }
 

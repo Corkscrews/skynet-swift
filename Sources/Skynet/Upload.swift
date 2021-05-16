@@ -17,6 +17,13 @@ internal struct Upload {
 
     queue.async {
 
+      let urlString: String = "\(Skynet.Config.host)/skynet/skyfile"
+
+      guard let url: URL = URL(string: urlString) else {
+        completion(.failure(Skynet.Error.invalidURL(urlString)))
+        return
+      }
+
       let sessionConfig = URLSessionConfiguration.default
       sessionConfig.timeoutIntervalForRequest = 120.0
       sessionConfig.timeoutIntervalForResource = 120.0
@@ -25,7 +32,7 @@ internal struct Upload {
       do {
 
       let task = try session.uploadMultipartTask(
-        url: URL(string: "\(Skynet.Config.host)/skynet/skyfile")!,
+        url: url,
         parameters: nil,
         fileKeyName: fileName ?? fileURL.lastPathComponent,
         fileURLs: [fileURL],
@@ -36,7 +43,7 @@ internal struct Upload {
               completion(.failure(error))
               return
             }
-            completion(.failure(Skynet.Error.unknown)) // TODO: Replace with enum
+            completion(.failure(Skynet.Error.unknown(nil))) // TODO: Replace with enum
             return
           }
 

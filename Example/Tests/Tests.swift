@@ -11,17 +11,6 @@ class Tests: XCTestCase {
     super.tearDown()
   }
 
-  func testDecodeHex() {
-    let string: String = "testDecodeHex"
-    let data: Data = string.data(using: String.Encoding.utf8)!
-    let dataEncodedHex: String = data.hexEncodedString()
-    let dataEncodedHexData: Data = dataEncodedHex.data(using: String.Encoding.utf8)!
-    let dataDecodedHex: Data = dataEncodedHexData.decodeHex()
-    let stringDecoded = String(decoding: dataDecodedHex, as: UTF8.self)
-    XCTAssertEqual(data, dataDecodedHex)
-    XCTAssertEqual(string, stringDecoded)
-  }
-
   func testWithPadding() {
     let integer = 123
     let result = withPadding(integer)
@@ -64,12 +53,7 @@ class Tests: XCTestCase {
 
     let dispatchQueue = DispatchQueue(label: "uploadRandomFileDispatchQueue", qos: .userInitiated)
 
-    let fileManager = FileManager.default
-    let directory = fileManager.temporaryDirectory
-    let fileURL = directory.appendingPathComponent("upload.json")
-
-    let data: Data = randomData(100000)
-    try! data.write(to: fileURL, options: .atomic)
+    let fileURL: URL = writeFile()
 
     var skylink: Skylink!
 
@@ -94,22 +78,28 @@ class Tests: XCTestCase {
 
   func testSkyDB() {
 
-    let fileManager = FileManager.default
-    let directory = fileManager.temporaryDirectory
-    let fileURL = directory.appendingPathComponent("upload.json")
+    let fileURL: URL = writeFile()
 
-    let data: Data = randomData(100000)
-    try! data.write(to: fileURL, options: .atomic)
+    let dispatchQueue = DispatchQueue(
+      label: "TestSkyDBDispatchQueue",
+      qos: .userInitiated)
 
-    let dispatchQueue = DispatchQueue(label: "TestSkyDBDispatchQueue", qos: .userInitiated)
+    let user: SkynetUser = SkynetUser.fromSeed(
+      seed: "788dddf5232807611557a3dc0fa5f34012c2650526ba91d55411a2b04ba56164")
 
-    let user: SkynetUser = SkynetUser.fromSeed(seed: "788dddf5232807611557a3dc0fa5f34012c2650526ba91d55411a2b04ba56164")
+    try! user.initialize()
 
-    let dataKey: String = "testRegistry"
+    let dataKey: String = randomString(count: 64)
 
-    let skyfile = SkyFile(fileURL: fileURL, fileName: "upload.json", type: "application/json")
+    let skyfile: SkyFile = SkyFile(
+      fileURL: fileURL,
+      fileName: "upload.json",
+      type: "application/json")
 
-    let expectedSetFile = XCTestExpectation(description: "Wait to create entry on registry using SkyDB")
+    // Upload file for the first time.
+
+    let expectedSetFile = XCTestExpectation(
+      description: "Wait to create entry on registry using SkyDB")
 
     SkyDB.setFile(
       queue: dispatchQueue,
@@ -117,11 +107,89 @@ class Tests: XCTestCase {
       dataKey: dataKey,
       skyFile: skyfile
     ) { (result: Result<(), Swift.Error>) in
-      print(result)
+
+      switch result {
+      case .success:
+        break
+      case .failure(let error):
+        XCTFail("First set file should not fail. Error: \(error)")
+      }
+
       expectedSetFile.fulfill()
     }
 
     wait(for: [expectedSetFile], timeout: 60.0)
+
+    // Write the file again for the second time to create a new revision.
+
+    let fileURLSecondRevision: URL = writeFile()
+
+    let expectedSetFileSecondRevision = XCTestExpectation(
+      description: "Wait to create entry on registry using SkyDB")
+
+    let skyfileSecondRevision: SkyFile = SkyFile(
+      fileURL: fileURLSecondRevision,
+      fileName: "upload.json",
+      type: "application/json")
+
+    SkyDB.setFile(
+      queue: dispatchQueue,
+      user: user,
+      dataKey: dataKey,
+      skyFile: skyfileSecondRevision
+    ) { (result: Result<(), Swift.Error>) in
+
+      switch result {
+      case .success:
+        break
+      case .failure(let error):
+        XCTFail("Second set file should not fail. Error: \(error)")
+      }
+
+      expectedSetFileSecondRevision.fulfill()
+    }
+
+    wait(for: [expectedSetFileSecondRevision], timeout: 60.0)
+
+    // Try to get the latest revision of the file and check if the data
+    // points to the latest revision.
+
+    let expectedGetFileSecondRevision = XCTestExpectation(
+      description: "Wait to create entry on registry using SkyDB")
+
+    let fileManager = FileManager.default
+    let directory = fileManager.temporaryDirectory
+    let fileURLSecondRevisionDownloaded: URL = directory
+      .appendingPathComponent("upload_second_revision.json")
+
+    try? fileManager.removeItem(at: fileURLSecondRevisionDownloaded)
+
+    SkyDB.getFile(
+      queue: dispatchQueue,
+      user: user,
+      dataKey: dataKey,
+      saveTo: fileURLSecondRevisionDownloaded
+    ) { (result: Result<SkyFile, Swift.Error>) in
+
+      switch result {
+      case .success(let response):
+
+        XCTAssertEqual(response, skyfileSecondRevision)
+
+        let dataFromSkynet: Data = try! Data(contentsOf: response.fileURL)
+        let secondRevisionData: Data = try! Data(contentsOf: fileURLSecondRevision)
+
+        XCTAssertEqual(dataFromSkynet, secondRevisionData)
+
+        break
+      case .failure(let error):
+        XCTFail("Get file should not fail. Error: \(error)")
+      }
+
+      expectedGetFileSecondRevision.fulfill()
+    }
+
+    wait(for: [expectedGetFileSecondRevision], timeout: 60.0)
 
   }
 
@@ -129,16 +197,18 @@ class Tests: XCTestCase {
 
     let skylink: Skylink = uploadRandomFile()
 
-    let user: SkynetUser = SkynetUser.fromSeed(seed: "788dddf5232807611557a3dc0fa5f34012c2650526ba91d55411a2b04ba56164")
+    let user: SkynetUser = SkynetUser.fromSeed(
+      seed: "788dddf5232807611557a3dc0fa5f34012c2650526ba91d55411a2b04ba56164")
 
     try! user.initialize()
 
     let dataKey: String = randomString(count: 64)
     let data: Data = skylink.data(using: .utf8)!
+    let revision: Int = 0
 
     let rv: RegistryEntry = RegistryEntry(dataKey: dataKey, data: data, revision: 0)
 
-    let signature = user.sign(rv.hash())
+    let signature: Signature = user.sign(rv.hash())
 
     let srv = SignedRegistryEntry(entry: rv, signature: signature)
 
@@ -164,10 +234,13 @@ class Tests: XCTestCase {
 
       switch result {
       case .success(let signedRegistryEntry):
-        print("signedRegistryEntry \(signedRegistryEntry)")
 
         XCTAssertEqual(dataKey, signedRegistryEntry.entry.dataKey!)
         XCTAssertEqual(data, signedRegistryEntry.entry.data)
+        XCTAssertEqual(revision, signedRegistryEntry.entry.revision)
+
+        XCTAssertEqual(signature.publicKey, signedRegistryEntry.signature!.publicKey)
+        XCTAssertEqual(signature.signature, signedRegistryEntry.signature!.signature)
 
       case .failure(let error):
         XCTFail("Error while trying to get entry: \(error)")
@@ -188,12 +261,7 @@ class Tests: XCTestCase {
 
     print("Starting upload of file")
 
-    let fileManager = FileManager.default
-    let directory = fileManager.temporaryDirectory
-    let fileURL = directory.appendingPathComponent("upload.json")
-
-    let data = randomData(100000)
-    try! data.write(to: fileURL, options: .atomic)
+    let fileURL: URL = writeFile()
 
     var skylink: Skylink!
 
@@ -220,6 +288,8 @@ class Tests: XCTestCase {
     print("File upload completed")
     print("Downloading file")
 
+    let fileManager = FileManager.default
+    let directory = fileManager.temporaryDirectory
     let fileURLDownload: URL = directory.appendingPathComponent("download.json")
     try? fileManager.removeItem(at: fileURLDownload)
 
@@ -236,7 +306,7 @@ class Tests: XCTestCase {
         XCTAssertEqual(response.fileName, "download.json")
         XCTAssertEqual(response.type, "application/octet-stream")
 
-        XCTAssertEqual(Int(self.size(fileURLDownload.path)), data.count)
+        XCTAssertEqual(100000, Int(self.size(fileURLDownload.path)))
 
       case .failure(let error):
         XCTFail("Upload to Skynet should not fail. Error: \(error)")
@@ -265,7 +335,7 @@ class Tests: XCTestCase {
       },
       completion: { (totalReceivedData: Int64) in
         expectStreamDownload.fulfill()
-        XCTAssertEqual(mutableData.count, data.count)
+        XCTAssertEqual(100000, mutableData.count)
       }
     )
 
@@ -276,14 +346,26 @@ class Tests: XCTestCase {
 
   }
 
+  func writeFile() -> URL {
+
+    let fileManager = FileManager.default
+    let directory = fileManager.temporaryDirectory
+    let fileURL: URL = directory.appendingPathComponent("upload.json")
+
+    let data: Data = randomData(100000)
+    try! data.write(to: fileURL, options: .atomic)
+
+    return fileURL
+  }
+
   func randomString(count: Int) -> String {
     let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
     return String((0..<count).map{ _ in letters.randomElement()! })
   }
 
-  public func randomData(_ length: Int) -> Data {
-    var bytes = [UInt8](repeating: 0, count: length)
-    let status = SecRandomCopyBytes(kSecRandomDefault, length, &bytes)
+  public func randomData(_ count: Int) -> Data {
+    var bytes = [UInt8](repeating: 0, count: count)
+    let status = SecRandomCopyBytes(kSecRandomDefault, count, &bytes)
     if status == errSecSuccess {
         return Data(bytes: bytes)
     }
