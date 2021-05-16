@@ -109,7 +109,7 @@ public class SkyDB {
             switch registryResult {
             case .success(let signedRegistryEntry):
               revision = signedRegistryEntry.entry.revision + 1
-            case .failure(let error):
+            case .failure(_):
 //              print(error)
               break
             }

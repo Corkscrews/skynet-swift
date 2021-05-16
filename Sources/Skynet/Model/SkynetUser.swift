@@ -210,15 +210,12 @@ struct NaclUtilP {
   }
 
   public static func randomBytes(length: Int) throws -> Data {
-    var data = Data(count: length)
-    let result = data.withUnsafeMutableBytes {
-      SecRandomCopyBytes(kSecRandomDefault, length, $0)
-    }
+    var bytes: [UInt8] = [UInt8](repeating: 0, count: 32)
+    let result: Int32 = SecRandomCopyBytes(kSecRandomDefault, bytes.count, &bytes)
     guard result == errSecSuccess else {
-      throw(NaclUtilError.internalError)
+      throw NaclUtilError.internalError
     }
-
-    return data
+    return Data(bytes)
   }
 
 }
