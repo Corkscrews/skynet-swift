@@ -328,19 +328,19 @@ class Tests: XCTestCase {
 
     let expectStreamDownload = XCTestExpectation(description: "Wait the file to download as stream")
 
-    let mutableData: NSMutableData = NSMutableData()
+    var buffer = Data()
 
     Skynet.download(
       queue: dispatchQueue,
       skylink: skylink,
       didReceiveData: { (data: Data, contentLength: Int64) in
-        mutableData.append(data)
+        buffer += data
         XCTAssertGreaterThanOrEqual(contentLength, 0)
-        print("Downloaded \(mutableData.length) of \(contentLength) bytes")
+        print("Downloaded \(buffer.count) of \(contentLength) bytes")
       },
       completion: { (totalReceivedData: Int64) in
         expectStreamDownload.fulfill()
-        XCTAssertEqual(100000, mutableData.count)
+        XCTAssertEqual(100000, buffer.count)
       }
     )
 

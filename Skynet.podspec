@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Skynet'
-  s.version          = '0.1.1'
+  s.version          = '0.1.2'
   s.summary          = 'Skynet SDK for iOS and macOS'
 
 # This description is used to generate tags and improve search results.

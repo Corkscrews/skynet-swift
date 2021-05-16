@@ -83,6 +83,33 @@ Skynet.download(
 }
 ```
 
+- Download a file (stream):
+ 
+```swift
+// Execute the download outside of the main thread.
+let dispatchQueue = DispatchQueue(label: "Queue", qos: .userInitiated)
+
+// Set a temporary file, when running in an application, you can use the documents folder.
+let fileURL: URL = FileManager.default
+  .temporaryDirectory
+  .appendingPathComponent("download.json")
+
+// Skylink for your file in the Skynet portal.
+let skylink: Skylink = "AACgj3yd9W4iZXusSUXj3uV0tHq883ReS5I-tFl9m0FBDg"
+
+var buffer = Data()
+
+Skynet.download(
+  queue: dispatchQueue,
+  skylink: skylink,
+  didReceiveData: { (data: Data, contentLength: Int64) in
+    buffer += data
+  },
+  completion: { (totalReceivedData: Int64) in
+    print("File saved, totalReceivedData: \(totalReceivedData)")
+  })
+```
+
 - Upload a file:
 
 ```swift
@@ -301,6 +328,12 @@ SkyDB.setFile(
 
 }
 ```
+
+### To be implemented:
+
+ - Upload of files in stream.
+ - Batch download/upload of files.
+ - Sing-in in the Skynet portal.
 
 ## Author
 
