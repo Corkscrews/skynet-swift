@@ -1,3 +1,8 @@
+## 0.1.2
+
+  - Added SkyDB. 
+  - Major fixes on Registry.
+
 ## 0.1.1
 
   - Added Blake2b.
