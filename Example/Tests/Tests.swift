@@ -94,7 +94,7 @@ class Tests: XCTestCase {
     let skyfile: SkyFile = SkyFile(
       fileURL: fileURL,
       fileName: "upload.json",
-      type: "application/json")
+      type: "application/octet-stream")
 
     // Upload file for the first time.
 
@@ -130,7 +130,7 @@ class Tests: XCTestCase {
     let skyfileSecondRevision: SkyFile = SkyFile(
       fileURL: fileURLSecondRevision,
       fileName: "upload.json",
-      type: "application/json")
+      type: "application/octet-stream")
 
     SkyDB.setFile(
       queue: dispatchQueue,
@@ -174,7 +174,12 @@ class Tests: XCTestCase {
       switch result {
       case .success(let response):
 
-        XCTAssertEqual(response, skyfileSecondRevision)
+        let expectedSkyfileSecondRevision: SkyFile = SkyFile(
+          fileURL: fileURLSecondRevisionDownloaded,
+          fileName: "upload_second_revision.json",
+          type: "application/octet-stream")
+
+        XCTAssertEqual(response, expectedSkyfileSecondRevision)
 
         let dataFromSkynet: Data = try! Data(contentsOf: response.fileURL)
         let secondRevisionData: Data = try! Data(contentsOf: fileURLSecondRevision)
@@ -214,7 +219,7 @@ class Tests: XCTestCase {
 
     let expectedSetRegistry = XCTestExpectation(description: "Wait to create entry on registry")
 
-    Registry.setEntry(user: user, dataKey: dataKey, srv: srv) { result in
+    Registry.setEntry(user: user, dataKey: dataKey, srv: srv) { (result: Result<(), Swift.Error>) in
 
       switch result {
       case .success:
@@ -290,7 +295,7 @@ class Tests: XCTestCase {
 
     let fileManager = FileManager.default
     let directory = fileManager.temporaryDirectory
-    let fileURLDownload: URL = directory.appendingPathComponent("download.json")
+    let fileURLDownload: URL = FileManager.default.temporaryDirectory.appendingPathComponent("download.json")
     try? fileManager.removeItem(at: fileURLDownload)
 
     let expectFileDownload = XCTestExpectation(description: "Wait the file to download")
@@ -309,7 +314,7 @@ class Tests: XCTestCase {
         XCTAssertEqual(100000, Int(self.size(fileURLDownload.path)))
 
       case .failure(let error):
-        XCTFail("Upload to Skynet should not fail. Error: \(error)")
+        XCTFail("Download from Skynet should not fail. Error: \(error)")
       }
       expectFileDownload.fulfill()
     }
