@@ -22,7 +22,6 @@ final class Download: NSObject, URLSessionDataDelegate {
   private var totalReceivedData: Int64 = 0
   private var expectedContentLength: Int64 = -1
 
-
   deinit {
     task?.cancel()
     task = nil
@@ -62,7 +61,7 @@ final class Download: NSObject, URLSessionDataDelegate {
     self.totalReceivedData += Int64(data.count)
     if totalReceivedData >= expectedContentLength {
       completion?(totalReceivedData)
-      completion = nil //Prevent any additional call if more data gets received.
+      completion = nil // Prevent any additional call if more data gets received.
     }
   }
 

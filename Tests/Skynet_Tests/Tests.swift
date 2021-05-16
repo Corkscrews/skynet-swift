@@ -1,5 +1,8 @@
 import XCTest
 import Skynet
+#if canImport(Blake2b)
+import Blake2b
+#endif
 
 class Tests: XCTestCase {
 
@@ -57,7 +60,7 @@ class Tests: XCTestCase {
 
     var skylink: Skylink!
 
-    let expectUpload = XCTestExpectation(description: "Wait the file to upload")
+    let expectUpload = self.expectation(description: "Wait the file to upload")
 
     Skynet.upload(queue: dispatchQueue, fileURL: fileURL) { (result: Result<SkynetResponse, Swift.Error>) in
       switch result {
@@ -71,7 +74,7 @@ class Tests: XCTestCase {
       expectUpload.fulfill()
     }
 
-    wait(for: [expectUpload], timeout: 600.0) // wow
+    waitForExpectations(timeout: 120)
 
     return skylink
   }
@@ -98,7 +101,7 @@ class Tests: XCTestCase {
 
     // Upload file for the first time.
 
-    let expectedSetFile = XCTestExpectation(
+    let expectedSetFile = self.expectation(
       description: "Wait to create entry on registry using SkyDB")
 
     SkyDB.setFile(
@@ -118,13 +121,13 @@ class Tests: XCTestCase {
       expectedSetFile.fulfill()
     }
 
-    wait(for: [expectedSetFile], timeout: 60.0)
+    waitForExpectations(timeout: 60)
 
     // Write the file again for the second time to create a new revision.
 
     let fileURLSecondRevision: URL = writeFile()
 
-    let expectedSetFileSecondRevision = XCTestExpectation(
+    let expectedSetFileSecondRevision = self.expectation(
       description: "Wait to create entry on registry using SkyDB")
 
     let skyfileSecondRevision: SkyFile = SkyFile(
@@ -149,12 +152,12 @@ class Tests: XCTestCase {
       expectedSetFileSecondRevision.fulfill()
     }
 
-    wait(for: [expectedSetFileSecondRevision], timeout: 60.0)
+    waitForExpectations(timeout: 60)
 
     // Try to get the latest revision of the file and check if the data
     // points to the latest revision.
 
-    let expectedGetFileSecondRevision = XCTestExpectation(
+    let expectedGetFileSecondRevision = self.expectation(
       description: "Wait to create entry on registry using SkyDB")
 
     let fileManager = FileManager.default
@@ -194,7 +197,7 @@ class Tests: XCTestCase {
       expectedGetFileSecondRevision.fulfill()
     }
 
-    wait(for: [expectedGetFileSecondRevision], timeout: 60.0)
+    waitForExpectations(timeout: 60)
 
   }
 
@@ -217,7 +220,7 @@ class Tests: XCTestCase {
 
     let srv = SignedRegistryEntry(entry: rv, signature: signature)
 
-    let expectedSetRegistry = XCTestExpectation(description: "Wait to create entry on registry")
+    let expectedSetRegistry = self.expectation(description: "Wait to create entry on registry")
 
     Registry.setEntry(user: user, dataKey: dataKey, srv: srv) { (result: Result<(), Swift.Error>) in
 
@@ -231,9 +234,9 @@ class Tests: XCTestCase {
 
     }
 
-    wait(for: [expectedSetRegistry], timeout: 60.0)
+    waitForExpectations(timeout: 60)
 
-    let expectedGetRegistry = XCTestExpectation(description: "Wait to get entry on registry")
+    let expectedGetRegistry = self.expectation(description: "Wait to get entry on registry")
 
     Registry.getEntry(user: user, dataKey: dataKey) { (result: Result<SignedRegistryEntry, Swift.Error>) in
 
@@ -254,7 +257,7 @@ class Tests: XCTestCase {
 
     }
 
-    wait(for: [expectedGetRegistry], timeout: 60.0)
+    waitForExpectations(timeout: 60)
 
   }
 
@@ -264,13 +267,11 @@ class Tests: XCTestCase {
     // to the main queue, which is not recommended.
     let dispatchQueue = DispatchQueue(label: "TestDispatchQueue", qos: .userInitiated)
 
-    print("Starting upload of file")
-
     let fileURL: URL = writeFile()
 
     var skylink: Skylink!
 
-    let expectUpload = XCTestExpectation(description: "Wait the file to upload")
+    let expectUpload = self.expectation(description: "Wait the file to upload")
 
     Skynet.upload(queue: dispatchQueue, fileURL: fileURL) { (result: Result<SkynetResponse, Swift.Error>) in
       switch result {
@@ -284,21 +285,17 @@ class Tests: XCTestCase {
       expectUpload.fulfill()
     }
 
-    wait(for: [expectUpload], timeout: 120.0)
+    waitForExpectations(timeout: 240)
 
     if skylink == nil {
       fatalError()
     }
 
-    print("File upload completed")
-    print("Downloading file")
+    let fileURLDownload: URL = FileManager.default.temporaryDirectory
+      .appendingPathComponent("download.json")
+    try? FileManager.default.removeItem(at: fileURLDownload)
 
-    let fileManager = FileManager.default
-    let directory = fileManager.temporaryDirectory
-    let fileURLDownload: URL = FileManager.default.temporaryDirectory.appendingPathComponent("download.json")
-    try? fileManager.removeItem(at: fileURLDownload)
-
-    let expectFileDownload = XCTestExpectation(description: "Wait the file to download")
+    let expectFileDownload = self.expectation(description: "Wait the file to download")
 
     Skynet.download(
       queue: dispatchQueue,
@@ -319,39 +316,33 @@ class Tests: XCTestCase {
       expectFileDownload.fulfill()
     }
 
-    wait(for: [expectFileDownload], timeout: 60.0)
+    waitForExpectations(timeout: 60)
 
-    try? fileManager.removeItem(at: fileURLDownload)
+    try? FileManager.default.removeItem(at: fileURLDownload)
 
-    print("File download completed")
-    print("Downloading file as stream")
+    // let expectStreamDownload = self.expectation(description: "Wait the file to download as stream")
 
-    let expectStreamDownload = XCTestExpectation(description: "Wait the file to download as stream")
+    // var buffer = Data()
 
-    var buffer = Data()
+    // Skynet.download(
+    //   queue: dispatchQueue,
+    //   skylink: skylink,
+    //   didReceiveData: { (data: Data, contentLength: Int64) in
+    //     buffer += data
+    //     XCTAssertGreaterThanOrEqual(contentLength, 0)
+    //     print("Downloaded \(buffer.count) of \(contentLength) bytes")
+    //   },
+    //   completion: { (_: Int64) in
+    //     expectStreamDownload.fulfill()
+    //     XCTAssertEqual(100000, buffer.count)
+    //   }
+    // )
 
-    Skynet.download(
-      queue: dispatchQueue,
-      skylink: skylink,
-      didReceiveData: { (data: Data, contentLength: Int64) in
-        buffer += data
-        XCTAssertGreaterThanOrEqual(contentLength, 0)
-        print("Downloaded \(buffer.count) of \(contentLength) bytes")
-      },
-      completion: { (totalReceivedData: Int64) in
-        expectStreamDownload.fulfill()
-        XCTAssertEqual(100000, buffer.count)
-      }
-    )
-
-    wait(for: [expectStreamDownload], timeout: 60.0)
-
-    print("Download of file as stream completed")
-
+    // waitForExpectations(timeout: 60)
 
   }
 
-  func writeFile() -> URL {
+  private func writeFile() -> URL {
 
     let fileManager = FileManager.default
     let directory = fileManager.temporaryDirectory
@@ -363,24 +354,24 @@ class Tests: XCTestCase {
     return fileURL
   }
 
-  func randomString(count: Int) -> String {
+  private func randomString(count: Int) -> String {
     let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-    return String((0..<count).map{ _ in letters.randomElement()! })
+    return String((0..<count).map { _ in letters.randomElement()! })
   }
 
   public func randomData(_ count: Int) -> Data {
     var bytes = [UInt8](repeating: 0, count: count)
     let status = SecRandomCopyBytes(kSecRandomDefault, count, &bytes)
     if status == errSecSuccess {
-        return Data(bytes: bytes)
+        return Data(bytes)
     }
     fatalError()
   }
 
-  func size(_ filePath: String) -> UInt64 {
+  private func size(_ filePath: String) -> UInt64 {
     do {
         let fileAttributes = try FileManager.default.attributesOfItem(atPath: filePath)
-        if let fileSize = fileAttributes[FileAttributeKey.size]  {
+        if let fileSize = fileAttributes[FileAttributeKey.size] {
             return (fileSize as! NSNumber).uint64Value
         } else {
             print("Failed to get a size attribute from path: \(filePath)")
@@ -390,6 +381,16 @@ class Tests: XCTestCase {
     }
     return 0
   }
+
+  static var allTests = [
+    ("testWithPadding", testWithPadding),
+    ("testHashRegistryValue", testHashRegistryValue),
+    ("testDeriveChildSeed", testDeriveChildSeed),
+    ("testBlake2b", testBlake2b),
+    ("testSkyDB", testSkyDB),
+    ("testRegistry", testRegistry),
+    ("testUpdateAndDownload", testUpdateAndDownload)
+  ]
 
 }
 

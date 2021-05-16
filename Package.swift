@@ -6,8 +6,8 @@ import PackageDescription
 let package = Package(
     name: "Skynet",
     platforms: [
-        .macOS(.v10_12), 
-        .iOS("11.4"),
+        .macOS(.v10_12),
+        .iOS("11.4")
     ],
     products: [
         .library(
@@ -27,6 +27,6 @@ let package = Package(
             name: "Blake2b"),
         .testTarget(
             name: "Skynet_Tests",
-            dependencies: ["Skynet"])
+            dependencies: ["Skynet", "Blake2b"])
     ]
 )

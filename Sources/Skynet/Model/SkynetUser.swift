@@ -104,7 +104,7 @@ public class SkynetUser {
   func sumDecrypt(key: Data, encryptedMessage: Data) -> Data {
     try! NaclSecretBox.open(
       box: encryptedMessage.advanced(by: 24),
-      nonce:encryptedMessage.suffix(24),
+      nonce: encryptedMessage.suffix(24),
       key: key) // Possibly wrong
   }
 
@@ -119,7 +119,7 @@ public class SkynetUser {
   }
 
   static func generateSeed() -> Data {
-    return try! NaclUtilP.randomBytes(length: 32)
+    try! NaclUtilP.randomBytes(length: 32)
   }
 
   func encrypt(message: Data, theirPublicKey: Data) -> Data {
@@ -186,7 +186,7 @@ public class SkynetUser {
 internal func dataWithHexString(hex: String) -> Data {
     var hex = hex
     var data = Data()
-    while(hex.count > 0) {
+    while hex.count > 0 {
         let subIndex = hex.index(hex.startIndex, offsetBy: 2)
         let c = String(hex[..<subIndex])
         hex = String(hex[subIndex...])
@@ -209,11 +209,10 @@ struct NaclUtilP {
     case internalError
   }
 
-
   public static func randomBytes(length: Int) throws -> Data {
     var data = Data(count: length)
     let result = data.withUnsafeMutableBytes {
-      return SecRandomCopyBytes(kSecRandomDefault, length, $0)
+      SecRandomCopyBytes(kSecRandomDefault, length, $0)
     }
     guard result == errSecSuccess else {
       throw(NaclUtilError.internalError)
