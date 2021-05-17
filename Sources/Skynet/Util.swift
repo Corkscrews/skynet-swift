@@ -10,11 +10,11 @@ import Foundation
 import Blake2b
 #endif
 
-internal func hashDataKey(_ dataKey: String) -> Data {
+public func hashDataKey(_ dataKey: String) -> Data {
   hashRawDataKey(dataKey.data(using: String.Encoding.utf8)!)
 }
 
-internal func hashRawDataKey(_ data: Data) -> Data {
+public func hashRawDataKey(_ data: Data) -> Data {
   let dataWithPadding: Data = withPadding(data.count) + data
   return Blake2b.hash(withDigestSize: 256, data: dataWithPadding)
 }

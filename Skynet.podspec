@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Skynet'
-  s.version          = '0.1.3'
+  s.version          = '0.1.4'
   s.summary          = 'Skynet SDK for iOS and macOS'
 
   s.description      = <<-DESC
@@ -32,9 +32,5 @@ Pod::Spec.new do |s|
   s.dependency 'CryptoSwift', '~> 1.4.0'
   s.dependency 'ed25519swift', '~> 1.2.8'
   s.dependency 'TweetNacl'
-
-  s.test_spec 'Tests' do |test_spec|
-    test_spec.source_files = 'Tests/Skynet_Tests/*.Swift'
-  end
 
 end

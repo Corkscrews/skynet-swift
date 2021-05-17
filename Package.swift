@@ -17,7 +17,8 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/krzyzanowskim/CryptoSwift.git", .upToNextMinor(from: "1.4.0")),
         .package(url: "https://github.com/pebble8888/ed25519swift.git", from: "1.2.8"),
-        .package(name: "TweetNacl", url: "https://github.com/bitmark-inc/tweetnacl-swiftwrap", .upToNextMajor(from: "1.0.0"))
+        .package(name: "TweetNacl", url: "https://github.com/bitmark-inc/tweetnacl-swiftwrap", .upToNextMajor(from: "1.0.0")),
+        .package(name: "Mockingjay", url: "https://github.com/saltzmanjoelh/Mockingjay.git", .branch("master"))
     ],
     targets: [
         .target(
@@ -27,6 +28,6 @@ let package = Package(
             name: "Blake2b"),
         .testTarget(
             name: "Skynet_Tests",
-            dependencies: ["Skynet", "Blake2b"])
+            dependencies: ["Skynet", "Blake2b", "Mockingjay"])
     ]
 )

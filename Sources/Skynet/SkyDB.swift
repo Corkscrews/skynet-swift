@@ -14,6 +14,17 @@ public struct SkyDBOpts {
   }
 }
 
+public struct SkyDBGetResponse {
+  public let skylink: Skylink
+  public let skyFile: SkyFile
+  public let srv: SignedRegistryEntry
+}
+
+public struct SkyDBSetResponse {
+  public let skynetResponse: SkynetResponse
+  public let srv: SignedRegistryEntry
+}
+
 public class SkyDB {
 
   public static func getFile(
@@ -22,7 +33,7 @@ public class SkyDB {
     dataKey: String,
     saveTo: URL,
     opts: SkyDBOpts? = nil,
-    _ completion: @escaping (Result<SkyFile, Swift.Error>) -> Void) {
+    _ completion: @escaping (Result<SkyDBGetResponse, Swift.Error>) -> Void) {
 
     queue.async {
 
@@ -43,10 +54,10 @@ public class SkyDB {
       ) { (result: Result<SignedRegistryEntry, Swift.Error>) in
 
         switch result {
-        case .success(let entry):
+        case .success(let srv):
 
           let skylink: Skylink = String(
-            bytes: entry.entry.data,
+            bytes: srv.entry.data,
             encoding: .utf8)!
 
           Download.download(
@@ -57,7 +68,11 @@ public class SkyDB {
 
             switch result {
             case .success(let skyfile):
-              completion(.success(skyfile))
+              let response: SkyDBGetResponse = SkyDBGetResponse(
+                skylink: skylink,
+                skyFile: skyfile,
+                srv: srv)
+              completion(.success(response))
             case .failure(let error):
               completion(.failure(error))
             }
@@ -80,7 +95,7 @@ public class SkyDB {
     dataKey: String,
     skyFile: SkyFile,
     opts: RegistryOpts = RegistryOpts(),
-    _ completion: @escaping (Result<(), Swift.Error>) -> Void) {
+    _ completion: @escaping (Result<SkyDBSetResponse, Swift.Error>) -> Void) {
 
     queue.async {
 
@@ -95,7 +110,7 @@ public class SkyDB {
       ) { (result: Result<SkynetResponse, Swift.Error>) in
 
         switch result {
-        case .success(let response):
+        case .success(let skynetResponse):
 
           Registry.getEntry(
             queue,
@@ -115,20 +130,21 @@ public class SkyDB {
             }
 
             var hashedDataKey: Data?
-            if let hdk = opts.hashedDatakey {
+
+            if let hdk: String = opts.hashedDatakey {
               hashedDataKey = dataWithHexString(hex: hdk)
             }
 
-            let rv = RegistryEntry(
+            let rv: RegistryEntry = RegistryEntry(
               dataKey: dataKey,
               hashedDataKey: hashedDataKey,
-              data: response.skylink.data(
+              data: skynetResponse.skylink.data(
                 using: String.Encoding.utf8)!,
               revision: revision)
 
-            let sig = user.sign(rv.hash())
+            let sig: Signature = user.sign(rv.hash())
 
-            let srv = SignedRegistryEntry(
+            let srv: SignedRegistryEntry = SignedRegistryEntry(
               entry: rv,
               signature: sig)
 
@@ -137,8 +153,23 @@ public class SkyDB {
               user: user,
               dataKey: dataKey,
               srv: srv,
-              opts: opts,
-              completion)
+              opts: opts
+            ) { (result: Result<(), Swift.Error>) in
+
+              switch result {
+              case .success:
+
+                let response: SkyDBSetResponse = SkyDBSetResponse(
+                  skynetResponse: skynetResponse,
+                  srv: srv)
+                completion(.success(response))
+
+              case .failure(let error):
+                completion(.failure(error))
+
+              }
+
+            }
 
           }
 

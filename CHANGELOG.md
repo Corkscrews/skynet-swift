@@ -1,4 +1,8 @@
-## 0.1.2
+## 0.1.4
+
+  - Better return type for closures on SkyDB.
+
+## 0.1.2 - 0.1.3
 
   - Added SkyDB. 
   - Major fixes on Registry.

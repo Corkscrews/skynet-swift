@@ -156,6 +156,7 @@ public struct RegistryPayload: Encodable {
 }
 
 public struct PublicKey: Codable {
+
   let algorithm: String
   let key: [UInt8]
 
@@ -263,8 +264,6 @@ public struct Registry {
         return
       }
 
-      components.fragment = route
-
       components.queryItems = [
         URLQueryItem(name: "publickey", value: "ed25519:\(id)"),
         URLQueryItem(name: "datakey", value: dataKeyIfRequired(opts, dataKey))
@@ -315,6 +314,6 @@ public struct Registry {
 
 }
 
-private func dataKeyIfRequired(_ opts: RegistryOpts?, _ dataKey: String) -> String {
+public func dataKeyIfRequired(_ opts: RegistryOpts?, _ dataKey: String) -> String {
   opts?.hashedDatakey ?? hashDataKey(dataKey).hexEncodedString()
 }

@@ -266,13 +266,13 @@ SkyDB.getFile(
   user: user,
   dataKey: dataKey,
   saveTo: fileURL
-) { (result: Result<SkyFile, Swift.Error>) in
+) { (result: Result<SkyDBGetResponse, Swift.Error>) in
 
   switch result {
 
   case .success(let response):
 
-    print("File saved to: \(response.fileURL)")
+    print("File saved to: \(response.skyFile.fileURL)")
 
   case .failure(let error):
     print("Error: \(error)")
@@ -314,12 +314,12 @@ SkyDB.setFile(
   user: user,
   dataKey: dataKey,
   skyFile: skyfile
-) { (result: Result<(), Swift.Error>) in
+) { (result: Result<SkyDBSetResponse, Swift.Error>) in
 
   switch result {
 
-  case .success:
-    print("Success")
+  case .success(let response):
+    print("Success \(response)")
 
   case .failure(let error):
     print("Error: \(error)")
