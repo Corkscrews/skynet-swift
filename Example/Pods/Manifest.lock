@@ -2,13 +2,22 @@ PODS:
   - CryptoSwift (1.4.0)
   - ed25519swift (1.2.8):
     - CryptoSwift
+  - Mockingjay (3.0.0-alpha.1):
+    - Mockingjay/Core (= 3.0.0-alpha.1)
+    - Mockingjay/XCTest (= 3.0.0-alpha.1)
+  - Mockingjay/Core (3.0.0-alpha.1):
+    - URITemplate (~> 3.0)
+  - Mockingjay/XCTest (3.0.0-alpha.1):
+    - Mockingjay/Core
   - Skynet (0.1.4):
     - CryptoSwift (~> 1.4.0)
     - ed25519swift (~> 1.2.8)
     - TweetNacl
   - TweetNacl (1.0.2)
+  - URITemplate (3.0.0)
 
 DEPENDENCIES:
+  - Mockingjay (from `https://github.com/ppamorim/Mockingjay.git`, branch `master`)
   - Skynet (from `../`)
 
 SPEC REPOS:
@@ -16,17 +25,28 @@ SPEC REPOS:
     - CryptoSwift
     - ed25519swift
     - TweetNacl
+    - URITemplate
 
 EXTERNAL SOURCES:
+  Mockingjay:
+    :branch: master
+    :git: https://github.com/ppamorim/Mockingjay.git
   Skynet:
     :path: "../"
+
+CHECKOUT OPTIONS:
+  Mockingjay:
+    :commit: 11053196a37459758688f047afd6ce0526c0a9b9
+    :git: https://github.com/ppamorim/Mockingjay.git
 
 SPEC CHECKSUMS:
   CryptoSwift: 7cc902df1784de3b389a387756c7d710f197730c
   ed25519swift: 32845b4d73fdd3598d6334972a62f463314de730
-  Skynet: 71fe1251f0178dd20db29a64f6b2a67748e7a56f
+  Mockingjay: 55b19801e4d0721bfe40bc30c326d66a1aba8e15
+  Skynet: 09c1dc2a1be4d6c1d044fa93b8f8aa3d75982838
   TweetNacl: 3abf4d1d2082b0114e7a67410e300892448951e6
+  URITemplate: 58e0d47f967006c5d59888af5356c4a8ed3b197d
 
-PODFILE CHECKSUM: c218a68b11fbd229f39ed088795d3479aa029eff
+PODFILE CHECKSUM: 97720888c850220126c17b2525f2149f7462ec37
 
 COCOAPODS: 1.10.1

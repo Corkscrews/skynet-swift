@@ -38,17 +38,5 @@
 
     ]
   },
-  "testspecs": [
-    {
-      "name": "Tests",
-      "test_type": "unit",
-      "source_files": "Tests/Skynet_Tests/*.Swift",
-      "dependencies": {
-        "Mockingjay": [
-
-        ]
-      }
-    }
-  ],
   "swift_version": "5.2"
 }

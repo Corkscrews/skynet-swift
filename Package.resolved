@@ -21,10 +21,10 @@
       },
       {
         "package": "Mockingjay",
-        "repositoryURL": "https://github.com/saltzmanjoelh/Mockingjay.git",
+        "repositoryURL": "https://github.com/ppamorim/Mockingjay.git",
         "state": {
           "branch": "master",
-          "revision": "a1d61f0e90c738dda2d6dc96bec98f55f27b731d",
+          "revision": "11053196a37459758688f047afd6ce0526c0a9b9",
           "version": null
         }
       },
