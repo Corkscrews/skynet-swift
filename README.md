@@ -1,10 +1,16 @@
-# Skynet SDK for iOS and macOS
+<p align="center">
+  <img src="https://github.com/ppamorim/skynet-swift/blob/main/Assets/skynet.svg" alt="Skynet-Swift" width="200" height="200" />
+</p>
 
-[![Version](https://img.shields.io/cocoapods/v/Skynet.svg?style=flat)](https://cocoapods.org/pods/Skynet)
-[![License](https://img.shields.io/cocoapods/l/Skynet.svg?style=flat)](https://cocoapods.org/pods/Skynet)
-[![Platform](https://img.shields.io/cocoapods/p/Skynet.svg?style=flat)](https://cocoapods.org/pods/Skynet)
+<h1 align="center">Skynet SDK for iOS and macOS</h1>
 
-Use Sia Skynet in your iOS or macOS projects. (Decentralized database)
+<p align="center">
+  <a href="https://github.com/ppamorim/skynet-swift/actions"><img src="https://github.com/ppamorim/skynet-swift/workflows/Tests/badge.svg" alt="GtiHub Workflow Status"></a>
+  <a href="https://github.com/ppamorim/skynet-swift/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-informational" alt="License"></a>
+  <a href="https://app.bors.tech/repositories/33932"><img src="https://bors.tech/images/badge_small.svg" alt="Bors enabled"></a>
+</p>
+
+Use Sia Skynet in your iOS or macOS projects.
 
 ## Requirements
 
