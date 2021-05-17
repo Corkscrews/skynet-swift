@@ -10,7 +10,7 @@
   <a href="https://app.bors.tech/repositories/33932"><img src="https://bors.tech/images/badge_small.svg" alt="Bors enabled"></a>
 </p>
 
-Use Sia Skynet in your iOS or macOS projects.
+<p align="center">Use Sia Skynet in your iOS or macOS projects.</p>
 
 ## Requirements
 
@@ -52,7 +52,7 @@ import Skynet
 - Download a file:
  
 ```swift
-// Execute the download outside of the main thread.
+// Execute the Skynet outside of the main thread.
 let dispatchQueue = DispatchQueue(label: "Queue", qos: .userInitiated)
 
 // Set a temporary file, when running in an application, you can use the documents folder.
@@ -92,7 +92,7 @@ Skynet.download(
 - Download a file (stream):
  
 ```swift
-// Execute the download outside of the main thread.
+// Execute the Skynet outside of the main thread.
 let dispatchQueue = DispatchQueue(label: "Queue", qos: .userInitiated)
 
 // Set a temporary file, when running in an application, you can use the documents folder.
@@ -119,7 +119,7 @@ Skynet.download(
 - Upload a file:
 
 ```swift
-// Execute the upload outside of the main thread.
+// Execute the Skynet outside of the main thread.
 let dispatchQueue = DispatchQueue(label: "Queue", qos: .userInitiated)
 
 // Set a temporary file, when running in an application, you can use the documents folder.
@@ -157,7 +157,7 @@ Skynet.upload(
 - Get an entry:
 
 ```swift
-// Execute the upload outside of the main thread.
+// Execute the Registry outside of the main thread.
 let dispatchQueue = DispatchQueue(label: "Queue", qos: .userInitiated)
 
 // It's required a Skynet user to create a registry. You can authenticate it using 
@@ -195,7 +195,7 @@ Registry.getEntry(
 - Set an entry:
 
 ```swift
-// Execute the upload outside of the main thread.
+// Execute the Registry outside of the main thread.
 let dispatchQueue = DispatchQueue(label: "Queue", qos: .userInitiated)
 
 // It's required a Skylink to create a registry. 
@@ -248,7 +248,7 @@ Registry.setEntry(
 - Get a file:
 
 ```swift
-// Execute the upload outside of the main thread.
+// Execute the SkyDB outside of the main thread.
 let dispatchQueue = DispatchQueue(label: "Queue", qos: .userInitiated)
 
 // It's required a Skynet user to create a registry. You can authenticate it using 
@@ -291,7 +291,7 @@ SkyDB.getFile(
 - Set a file:
 
 ```swift
-// Execute the upload outside of the main thread.
+// Execute the SkyDB outside of the main thread.
 let dispatchQueue = DispatchQueue(label: "Queue", qos: .userInitiated)
 
 // It's required a Skynet user to create a registry. You can authenticate it using 
