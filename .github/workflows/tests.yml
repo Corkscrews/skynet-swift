@@ -11,10 +11,10 @@ on:
 
 jobs:
   integeration_tests:
-    name: integration-tests
+    name: unit-tests
     runs-on: macos-latest
     env:
-      DEVELOPER_DIR: /Applications/Xcode_11.5.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_12.4.app/Contents/Developer
     steps:
       - uses: actions/checkout@v2
       - name: Run tests
@@ -24,7 +24,7 @@ jobs:
     name: linter-check
     runs-on: macos-latest
     env:
-      DEVELOPER_DIR: /Applications/Xcode_11.5.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_12.4.app/Contents/Developer
     steps:
       - uses: actions/checkout@v2
       - name: Run SwiftLint
