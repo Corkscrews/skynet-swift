@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/ppamorim/skynet-swift/blob/main/Assets/skynet.svg" alt="Skynet-Swift" width="200" height="200" />
+  <img src="https://github.com/ppamorim/skynet-swift/blob/master/Assets/skynet.svg" alt="Skynet-Swift" width="200" height="200" />
 </p>
 
 <h1 align="center">Skynet SDK for iOS and macOS</h1>
