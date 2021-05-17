@@ -1,6 +1,7 @@
 ## 0.1.4
 
   - Better return type for closures on SkyDB.
+  - Added mock for http requests on tests.
 
 ## 0.1.2 - 0.1.3
 
